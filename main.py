@@ -1,0 +1,59 @@
+import unittest
+import os, sys, logging, yaml
+from Common.Reporter import HTMLTestRunner
+import Common.LoggingMap as login_map
+import importlib
+from Common.Mailer import EmailSender
+from Common.Configure import Configure
+
+frameworkDir = os.path.dirname(__file__)
+global_conf = Configure()
+runningProject = global_conf.get_running_project()
+casesDir = os.path.join(frameworkDir, "Projects", runningProject, "Cases")
+logLevel = global_conf.get_loglevel()
+reportPath = os.path.join(frameworkDir, "Report", "Report.html")
+with open(os.path.join("Projects", runningProject, "Conf", "Conf.yml"), "r", encoding="utf-8") as f:
+    project_conf = yaml.load(f, Loader=yaml.SafeLoader)
+    modulesToRun = project_conf.get("MODULES_TO_RUN")
+
+modules = []
+for fileName in os.listdir(casesDir):
+    if fileName.startswith("Test") and fileName.endswith(".py"):
+        moduleName = fileName[:-3]
+        modules.append(moduleName)
+
+
+class Test:
+    # 收集测试用例
+    @classmethod
+    def suite(cls):
+        su = unittest.TestSuite()
+        if modules:
+            for i in modules:
+                m = "Projects.%s.Cases.%s" % (runningProject, i)
+                s = importlib.import_module(m)
+                org_class = getattr(s, i)
+                class_name = org_class.__name__
+                if modulesToRun:
+                    for j in modulesToRun.split(", "):
+                        if j == class_name:
+                            for c in dir(org_class):
+                                if c.startswith("test_"):
+                                    su.addTest(org_class(c))
+                else:
+                    for c in dir(org_class):
+                        if c.startswith("test_"):
+                            su.addTest(org_class(c))
+        return su
+
+
+if __name__ == '__main__':
+    logger = logging.getLogger()
+    logger.setLevel(login_map.LoggingMap[logLevel])
+    logging.basicConfig(format='%(asctime)s: %(levelname)s: %(message)s', stream=sys.stderr)
+    MyTests = Test()
+    with open(reportPath, "wb") as f:
+        runner = HTMLTestRunner(stream=f, title='Api Test Report', description='Project: %s' % runningProject)
+        runner.run(MyTests.suite())
+    if global_conf.get_auto_send_report():
+        EmailSender.send_report(global_conf.get_mail_server_config(), reportPath)

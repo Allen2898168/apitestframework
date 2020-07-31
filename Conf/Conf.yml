@@ -1,0 +1,26 @@
+{
+  PROJECT_TO_RUN: dss_system,
+  LOG_LEVEL: WARN,
+  AUTO_SEND_REPORT: False,
+  DB: [
+  {name: dss,
+   type: mysql,
+   config: {
+     host: 10.10.154.53,
+     port: 9004,
+     user: uqxikb6,
+     password: TLNCxll8MStSnDNomWunjees3i8utfCt,
+     database: db_g_user
+   }
+  },
+
+  ],
+  EMAIL_SERVER: {
+    sender: aaa@aa.com,
+    receivers: bbb@bbb.com,
+    subject: api测试报告,
+    smtp_server: x.x.x.x@server.address,
+    username: username,
+    password: password
+  }
+}
