@@ -2,7 +2,8 @@ MODULES_TO_RUN:
 
 url:
   loginUrl: https://testcardboard.ininin.com/crm/account_center/login?queryFrom=query
-  customer_list: https://testcardboard.ininin.com/crm/customer/pc_customer_list
+  CustomerList: https://testcardboard.ininin.com/crm/customer/pc_customer_list
+
 headers: {
   Accept: application/json,
   X-Auth-Token: None,
@@ -11,9 +12,11 @@ headers: {
 
 data:
   loginDate: {"userName":"13417599999","password":"wl666888"}
-  customer_list: {"searchKey":"深圳市法本信息技术股份有限公司","currentPage":1,"pageSize":10,"queryFrom":"query"}
+  CustomerList: {"searchKey":"深圳市法本信息技术股份有限公司","currentPage":1,"pageSize":10,"queryFrom":"query"}
 
 
 
 sql:
   find_customer: "SELECT ep_name FROM customer WHERE ep_name = '%s'"
+
+

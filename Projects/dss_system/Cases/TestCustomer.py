@@ -12,7 +12,7 @@ class TestCustomer(CaseCode):
     def test_customer_list(self):
         """ 查询客户列表 """
         with self.setUp():
-            data = self.data.get("customer_list")
+            data = self.data.get("CustomerList")
 
         with self.steps():
             resp = self.customer_list(data)
@@ -23,3 +23,4 @@ class TestCustomer(CaseCode):
 
         with self.verify():
             assert resp_name == expect, "错误，预期%s，实际%s" % (expect, resp_name)
+

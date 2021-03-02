@@ -16,6 +16,7 @@ class CaseCode(Base):
 
     def customer_list(self, data: str):
         """ 查询客户列表 """
-        url_customer_list = self.url.get("customer_list")
+        url_customer_list = self.url.get("CustomerList")
         r = self.client.get(url=url_customer_list, params=data, headers=self.token_headers(), verify=False)
         return r
+
