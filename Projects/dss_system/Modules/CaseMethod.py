@@ -5,18 +5,24 @@ class CaseCode(Base):
 
     def __init__(self, *args, **kwargs):
         super(CaseCode, self).__init__(*args, **kwargs)
-        self.headers = self.get_headers
-        self.login()
+        # self.headers = self.get_headers
+        # self.login()
 
-    def token_headers(self):
-        """ 保存token到信息头，后续调用该方法做 """
+    # def token_headers(self):
+    #     """ 保存token到信息头，后续调用该方法做 """
+    #
+    #     self.headers["X-Auth-Token"] = self.procedure().token.get("token")
+    #     return self.headers
 
-        self.headers["X-Auth-Token"] = self.procedure().token.get("token")
-        return self.headers
-
-    def customer_list(self, data: str):
-        """ 查询客户列表 """
-        url_customer_list = self.url.get("CustomerList")
-        r = self.client.get(url=url_customer_list, params=data, headers=self.token_headers(), verify=False)
+    # def customer_list(self, data: str):
+    #     """ 查询客户列表 """
+    #     url_customer_list = self.url.get("CustomerList")
+    #     r = self.client.get(url=url_customer_list, params=data, headers=self.token_headers(), verify=False)
+    #     return r
+    #
+    def create_order(self, data: str):
+        """ 创建线下订单 """
+        url = self.url.get("CreateOrderUrl")
+        headers = self.get_headers()
+        r = self.client.post(url=url, data=data, headers=headers)
         return r
-

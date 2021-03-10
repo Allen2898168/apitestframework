@@ -3,16 +3,15 @@ MODULES_TO_RUN:
 url:
   loginUrl: https://testcardboard.ininin.com/crm/account_center/login?queryFrom=query
   CustomerList: https://testcardboard.ininin.com/crm/customer/pc_customer_list
+  CreateOrderUrl: https://testopen.ininin.com/externalservice/order_difference/unified_sync_order_internal?requestSource=1&syncType=32&appKey=G4IF3vfnE6yFF1X2
 
 headers: {
-  Accept: application/json,
-  X-Auth-Token: None,
-  X-CURR-ENTERPRISE-ID: "5461"   #二级厂id   必传
+  Accept: application/json
 }
 
 data:
-  loginDate: {"userName":"13417599999","password":"wl666888"}
-  CustomerList: {"searchKey":"深圳市法本信息技术股份有限公司","currentPage":1,"pageSize":10,"queryFrom":"query"}
+  CreateOrder: { "additionalAmount": 0,"corrugatedType": "B","createTime": "","creator": "许安宁","customerCode": "NBCS0001","customerName": "江西裕丰纸业有限公司","cutNumber": 2,"cuttingMode": 1,"deliveryDate": "2020-11-15 00:00:00","deliveryRemark": "","externalOrderCode": { $ },"externalOrderType": 1,"lineDepth": 0,"lineMode": 1,"lineNumber": 3,"lineSizeA": 122,"lineSizeB": 365,"lineSizeC": 122,"lineSizeD": 0,"lineSizeE": 0,"lineSizeF": 0,"materialCode": "Q4Q","netArea": 0.837375,"operationType": 1,"orderProductCode": "","orderTime": "2020-11-12 19:00:00","piecePrice": 2.4,"poNo": "","productPrice": 158.4,"productRemark": "","productType": 100,"productionSize": "1375*609","productionWidth": 1300,"quantity": 66,"receiveAddress": "宝安啊兄弟","receiver": "黎志良","receiverPhone": "18858214109","sizeX": 1375,"sizeY": 609,"transactionPrice": 2.8,"trimming": 82,"valuationArea": 0.857315,"valuationUnit": 1,"width": 1300 }
+
 
 
 

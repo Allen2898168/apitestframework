@@ -1,6 +1,8 @@
 from Common.Case import Case
 import jsonpath
 import json
+import datetime
+import random
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
 
@@ -31,6 +33,15 @@ class Base(Case):
         cursor.execute(sql)
         result = cursor.fetchall()
         return result
+
+    @staticmethod
+    def get_time(self):
+        """ 获取时间戳 唯一编号 """
+        nowTime = datetime.datetime.now().strftime("%Y%m%d%S")
+        randomNum = random.randint(0, 99)
+        randomNum = str(0) + str(randomNum)
+        uniqueNum = str(nowTime) + str(randomNum)
+        return uniqueNum
 
     def login(self):
         """获取token"""
