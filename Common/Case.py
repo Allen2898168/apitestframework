@@ -42,6 +42,7 @@ class Case(TestCase):
         super(Case, self).__init__(*args, **kwargs)
         self.data = self.project_conf().get("data")
         self.url = self.project_conf().get("url")
+        self.path = self.project_conf().get("path")
         self.get_headers = self.project_conf().get("headers")
         self.sql = self.project_conf().get("sql")
         self.logger = logging
@@ -65,14 +66,19 @@ class Case(TestCase):
     @contextmanager
     def steps(self):
         """ 步骤 """
-        yield self
+        yield self.steps
 
     @contextmanager
     def verify(self):
         """ 校验 """
-        yield self
+        yield self.verify
 
     @contextmanager
     def cleanUp(self):
         """ 数据清理 """
-        yield self.tearDown
+        yield self.cleanUp
+
+    @contextmanager
+    def save(self):
+        """ 数据清理 """
+        yield self.save

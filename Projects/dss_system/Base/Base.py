@@ -31,17 +31,17 @@ class Base(Case):
         conn, cursor = self.gets_db_cursor()
         sql = set_sql
         cursor.execute(sql)
-        result = cursor.fetchall()
+        result = cursor.fetchone()
         return result
 
     @staticmethod
     def get_time(self):
         """ 获取时间戳 唯一编号 """
-        nowTime = datetime.datetime.now().strftime("%Y%m%d%S")
-        randomNum = random.randint(0, 99)
-        randomNum = str(0) + str(randomNum)
-        uniqueNum = str(nowTime) + str(randomNum)
-        return uniqueNum
+        now_time = datetime.datetime.now().strftime("%Y%m%d%S")
+        random_num = random.randint(0, 99)
+        random_num = str(0) + str(random_num)
+        unique_num = str(now_time) + str(random_num)
+        return unique_num
 
     def login(self):
         """获取token"""
