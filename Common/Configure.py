@@ -6,7 +6,9 @@ class Configure:
 
     @classmethod
     def get_global_config(cls):
-        with open(os.path.join("./Conf", "Conf.yml"), "r", encoding="utf-8") as f:
+        conf = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+        with open(os.path.join(conf, "Conf.yml"), "r", encoding="utf-8") as f:
             return yaml.load(f, Loader=yaml.SafeLoader)
 
     @classmethod
