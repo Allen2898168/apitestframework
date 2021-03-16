@@ -106,3 +106,4 @@ class TestCustomer(CaseCode):
         with self.verify():
             assert resp_code == 1000 and resp_msg == '操作成功' and order_status == '已签收', \
                 "错误，实际%s %s %s" % (resp_code, resp_msg, order_status)
+

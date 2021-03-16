@@ -9,6 +9,8 @@ path:
   enteringWarehouse: /externalservice/order/entering_warehouse?appKey=G4IF3vfnE6yFF1X2&sign=efd093e3caa732006a648c246f7c2c41&timestamp=1605230925068&fromer=gyp
   deliveryOrder: /externalservice/order/delivery?appKey=G4IF3vfnE6yFF1X2&sign=e811ca5ff0eb3c536493e0bd91121aa8&timestamp=1605230925068&fromer=gyp
   receiptOrder: /externalservice/order/receipt?appKey=G4IF3vfnE6yFF1X2&sign=317afe6def361814f9facf1a3b0b330d&timestamp=1605230925068&fromer=gyp
+  update_offline_order: /order_status_rollback/update_offline_order_status
+  update_online_order: /order_status_rollback/update_online_order_status
 headers: {
   Accept: application/json
 }
@@ -150,6 +152,8 @@ data:
       "remark": ""
     }
 
+  update_offline_order: {"orderId":{$},"inStatus":{$}}
+  update_online_order:
 
 sql:
   find_order: SELECT * FROM `db_g_order`.`data_order` WHERE `order_code` = '%s'

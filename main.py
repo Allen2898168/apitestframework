@@ -57,3 +57,4 @@ if __name__ == '__main__':
         runner.run(MyTests.suite())
     if global_conf.get_auto_send_report():
         EmailSender.send_report(global_conf.get_mail_server_config(), reportPath)
+
