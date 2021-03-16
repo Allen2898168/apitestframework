@@ -16,7 +16,9 @@ class Case(TestCase):
     @classmethod
     def project_conf(cls):
         """ 获取项目配置 """
-        with open(os.path.join("Projects", Configure.get_running_project(), "Conf", "Conf.yml"), "r",
+        conf = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+        with open(os.path.join(conf, "Projects", Configure.get_running_project(), "Conf", "Conf.yml"), "r",
                   encoding="utf-8") as f:
             return yaml.load(f, Loader=yaml.SafeLoader)
 
