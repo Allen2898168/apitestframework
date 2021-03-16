@@ -49,7 +49,7 @@ class TestOfflineOrder(CaseCode):
                 .get("order_status")
         with self.verify():
             assert resp_code == 1000 and resp_msg == '操作成功' and order_status == '待入库', \
-                "错误，实际%s %s %s  订单号：%s" % (resp_code, resp_msg, order_status, self.procedure().value.get("order_code"))
+                "错误，实际%s %s 数据库状态：%s  订单号：%s" % (resp_code, resp_msg, order_status, self.procedure().value.get("order_code"))
 
     def test_03_entering_warehouse(self):
         """ 测试订单入库 """
@@ -67,7 +67,7 @@ class TestOfflineOrder(CaseCode):
 
         with self.verify():
             assert resp_code == 1000 and resp_msg == '操作成功' and order_status == '待发货', \
-                "错误，实际%s %s %s 订单号：%s" % (resp_code, resp_msg, order_status,self.procedure().value.get("order_code"))
+                "错误，实际%s %s 数据库状态：%s 订单号：%s" % (resp_code, resp_msg, order_status,self.procedure().value.get("order_code"))
 
     def test_04_delivery_order(self):
         """ 测试订单发货 """
@@ -86,7 +86,7 @@ class TestOfflineOrder(CaseCode):
 
         with self.verify():
             assert resp_code == 1000 and resp_msg == '操作成功' and order_status == '待签收', \
-                "错误，实际%s %s %s 订单号：%s" % (resp_code, resp_msg, order_status,self.procedure().value.get("order_code"))
+                "错误，实际%s %s 数据库状态：%s 订单号：%s" % (resp_code, resp_msg, order_status,self.procedure().value.get("order_code"))
 
     def test_05_receipt_order(self):
         """ 测试订单签收 """
@@ -105,4 +105,4 @@ class TestOfflineOrder(CaseCode):
 
         with self.verify():
             assert resp_code == 1000 and resp_msg == '操作成功' and order_status == '已签收', \
-                "错误，实际%s %s %s 订单号：%s" % (resp_code, resp_msg, order_status,self.procedure().value.get("order_code"))
+                "错误，实际%s %s 数据库状态：%s 订单号：%s" % (resp_code, resp_msg, order_status,self.procedure().value.get("order_code"))
