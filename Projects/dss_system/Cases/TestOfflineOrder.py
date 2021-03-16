@@ -6,11 +6,11 @@ import json
 from datetime import datetime
 
 
-class TestCustomer(CaseCode):
+class TestOfflineOrder(CaseCode):
     """ 线下订单流程测试 """
 
     def __init__(self, *args, **kwargs):
-        super(TestCustomer, self).__init__(*args, **kwargs)
+        super(TestOfflineOrder, self).__init__(*args, **kwargs)
 
     def test_01_create_order(self):
         """ 创建线下订单 """

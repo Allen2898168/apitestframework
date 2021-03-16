@@ -53,7 +53,7 @@ if __name__ == '__main__':
     logging.basicConfig(format='%(asctime)s: %(levelname)s: %(message)s', stream=sys.stderr)
     MyTests = Test()
     with open(reportPath, "wb") as f:
-        runner = HTMLTestRunner(stream=f, title='Api Test Report', description='Project: %s' % runningProject)
+        runner = HTMLTestRunner(stream=f, title='Api Test Report', description='Project: %s' % runningProject,online='http://10.10.103.170/Report.html')
         runner.run(MyTests.suite())
     if global_conf.get_auto_send_report():
         EmailSender.send_report(global_conf.get_mail_server_config(), reportPath)
