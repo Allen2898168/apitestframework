@@ -12,8 +12,8 @@ runningProject = global_conf.get_running_project()
 casesDir = os.path.join(frameworkDir, "Projects", runningProject, "Cases")
 logLevel = global_conf.get_loglevel()
 reportPath = os.path.join(frameworkDir, "Report", "Report.html")
-conf = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-with open(os.path.join(conf, "Projects", runningProject, "Conf", "Conf.yml"), "r", encoding="utf-8") as f:
+# conf = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+with open(os.path.join(frameworkDir, "Projects", runningProject, "Conf", "Conf.yml"), "r", encoding="utf-8") as f:
     project_conf = yaml.load(f, Loader=yaml.SafeLoader)
     modulesToRun = project_conf.get("MODULES_TO_RUN")
 
@@ -54,8 +54,8 @@ if __name__ == '__main__':
     logging.basicConfig(format='%(asctime)s: %(levelname)s: %(message)s', stream=sys.stderr)
     MyTests = Test()
     with open(reportPath, "wb") as f:
-        runner = HTMLTestRunner(stream=f, title='Api Test Report', description='Project: %s' % runningProject,online='http://10.10.103.170/Report.html')
+        runner = HTMLTestRunner(stream=f, title='Api Test Report', description='Project: %s' % runningProject,
+                                online='http://10.10.103.170/Report.html')
         runner.run(MyTests.suite())
     if global_conf.get_auto_send_report():
         EmailSender.send_report(global_conf.get_mail_server_config(), reportPath)
-
