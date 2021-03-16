@@ -7,7 +7,7 @@ from datetime import datetime
 
 
 class TestOfflineOrder(CaseCode):
-    """ 线下订单流程测试 """
+    """ 线下订单流程测试用例集 """
 
     def __init__(self, *args, **kwargs):
         super(TestOfflineOrder, self).__init__(*args, **kwargs)
@@ -35,7 +35,7 @@ class TestOfflineOrder(CaseCode):
             self.procedure().value.update({"order_code": order_id})
 
     def test_02_production_order(self):
-        """ 订单排产 """
+        """ 测试订单排产 """
         with self.setUp():
             data = self.data.get("productionOrder")
             data['productionData'][0]['externalOrderCode'] = self.procedure().value.get("order_code")
@@ -52,7 +52,7 @@ class TestOfflineOrder(CaseCode):
                 "错误，实际%s %s %s" % (resp_code, resp_msg, order_status)
 
     def test_03_entering_warehouse(self):
-        """ 订单入库 """
+        """ 测试订单入库 """
         with self.setUp():
             data = self.data.get("enteringWarehouse")
             data['enteringWarehouseData'][0]['externalOrderCode'] = self.procedure().value.get("order_code")
@@ -70,7 +70,7 @@ class TestOfflineOrder(CaseCode):
                 "错误，实际%s %s %s" % (resp_code, resp_msg, order_status)
 
     def test_04_delivery_order(self):
-        """ 订单发货 """
+        """ 测试订单发货 """
         with self.setUp():
             data = self.data.get("deliveryOrder")
             data['deliveryList'][0]['externalOrderCode'] = self.procedure().value.get("order_code")
@@ -89,7 +89,7 @@ class TestOfflineOrder(CaseCode):
                 "错误，实际%s %s %s" % (resp_code, resp_msg, order_status)
 
     def test_05_receipt_order(self):
-        """ 订单签收 """
+        """ 测试订单签收 """
         with self.setUp():
             data = self.data.get("receiptOrder")
             data['receiptList'][0]['externalOrderCode'] = self.procedure().value.get("order_code")
