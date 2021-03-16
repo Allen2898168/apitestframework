@@ -49,7 +49,7 @@ class TestOfflineOrder(CaseCode):
             order_status = self.select_sql(self.sql.get("find_order") % self.procedure().value.get("order_code")) \
                 .get("order_status")
         with self.verify():
-            time.sleep(5)
+            time.sleep(2)
             assert resp_code == 1000 and resp_msg == '操作成功', \
                 "错误，实际%s %s 数据库状态：%s  订单号：%s" % (
                     resp_code, resp_msg, order_status, self.procedure().value.get("order_code"))
@@ -71,7 +71,7 @@ class TestOfflineOrder(CaseCode):
                 .get("order_status")
 
         with self.verify():
-            time.sleep(5)
+            time.sleep(2)
             assert resp_code == 1000 and resp_msg == '操作成功', \
                 "错误，实际%s %s 数据库状态：%s  订单号：%s" % (
                     resp_code, resp_msg, order_status, self.procedure().value.get("order_code"))
@@ -94,7 +94,7 @@ class TestOfflineOrder(CaseCode):
                 .get("order_status")
 
         with self.verify():
-            time.sleep(5)
+            time.sleep(2)
             assert resp_code == 1000 and resp_msg == '操作成功', \
                 "错误，实际%s %s 数据库状态：%s  订单号：%s" % (
                     resp_code, resp_msg, order_status, self.procedure().value.get("order_code"))
@@ -117,7 +117,7 @@ class TestOfflineOrder(CaseCode):
                 .get("order_status")
 
         with self.verify():
-            time.sleep(5)
+            time.sleep(2)
             assert resp_code == 1000 and resp_msg == '操作成功', \
                 "错误，实际%s %s 数据库状态：%s  订单号：%s" % (
                     resp_code, resp_msg, order_status, self.procedure().value.get("order_code"))
