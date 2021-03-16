@@ -6,11 +6,11 @@
   {name: dss,
    type: mysql,
    config: {
-     host: 10.10.154.53,
+     host: ops.ininin.com,
      port: 9004,
      user: uqxikb6,
      password: TLNCxll8MStSnDNomWunjees3i8utfCt,
-     database: db_g_user
+     database: db_g_order
    }
   },
 
