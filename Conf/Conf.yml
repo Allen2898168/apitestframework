@@ -16,11 +16,12 @@
 
   ],
   EMAIL_SERVER: {
-    sender: aaa@aa.com,
-    receivers: bbb@bbb.com,
+    sender: szguoyupeng@ininin.com,
+    receivers: szguoyupeng@ininin.com,
     subject: api测试报告,
-    smtp_server: x.x.x.x@server.address,
-    username: username,
-    password: password
+    smtp_server: smtp.exmail.qq.com,
+    username: szguoyupeng@ininin.com,
+    password: KTWoBWYDWdrDogaS
+
   }
 }
