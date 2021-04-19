@@ -5,6 +5,7 @@ import Common.LoggingMap as login_map
 import importlib
 from Common.Mailer import EmailSender
 from Common.Configure import Configure
+from unittestreport import TestRunner
 
 frameworkDir = os.path.dirname(__file__)
 global_conf = Configure()
@@ -57,5 +58,8 @@ if __name__ == '__main__':
         runner = HTMLTestRunner(stream=f, title='Api Test Report', description='Project: %s' % runningProject,
                                 online='http://10.10.103.170/Report.html')
         runner.run(MyTests.suite())
+        print(runner.getReportCount())
+
     if global_conf.get_auto_send_report():
         EmailSender.send_report(global_conf.get_mail_server_config(), reportPath)
+# <unittest.suite.TestSuite tests=[<Projects.dss_system.Cases.test.test testMethod=test_add>]>

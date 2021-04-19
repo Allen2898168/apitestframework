@@ -68,6 +68,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 __author__ = "Wai Yip Tung"
 __version__ = "0.9.1"
 
+import re
+
 """
 Change History
 Version 0.9.1
@@ -102,9 +104,10 @@ Version in 0.7.1
 import datetime
 import sys
 import io
-import time
 import unittest
 from xml.sax import saxutils
+from Common.NailInform import DingTalkSender
+from Common.Configure import Configure
 
 
 # ------------------------------------------------------------------------
@@ -563,6 +566,7 @@ class Template_mixin(object):
 
 
 TestResult = unittest.TestResult
+global_conf = Configure()
 
 
 class _TestResult(TestResult):
@@ -751,19 +755,36 @@ class HTMLTestRunner(Template_mixin):
         duration = str(self.stopTime - self.startTime)
         status = []
         online = self.online
+        case_count = str(result.success_count + result.error_count + result.failure_count)
         if result.success_count: status.append(u'通过 %s' % result.success_count)
         if result.failure_count: status.append(u'失败 %s' % result.failure_count)
         if result.error_count:   status.append(u'错误 %s' % result.error_count)
+        # count = self.sum_of_list(case_count)
         if status:
             status = ' '.join(status)
         else:
             status = 'none'
+
         return [
             (u'开始时间', startTime),
             (u'运行时长', duration),
+            (u'用例总数', case_count),
             (u'状态', status),
             (u'在线测试报告地址', online),
         ]
+
+    def getReportCount(self):
+        report_count = self.getReportAttributes
+        return report_count
+
+    def dd_msg(self, result, token):
+        """
+        :param 测试报告信息:
+        :param 钉钉token:
+        :return:
+        """
+        report_nail = DingTalkSender.nail_inform(result, token)
+        return report_nail
 
     def generateReport(self, test, result):
         report_attrs = self.getReportAttributes(result)
@@ -783,6 +804,10 @@ class HTMLTestRunner(Template_mixin):
             chart_script=chart
         )
         self.stream.write(output.encode('utf8'))
+        if global_conf.get_auto_send_ding_talk():
+            self.dd_msg(report_attrs, Configure.get_ding_talk_server_config())  # 发送钉钉消息
+
+        return report_attrs
 
     def _generate_stylesheet(self):
         return self.STYLESHEET_TMPL

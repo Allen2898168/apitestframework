@@ -14,7 +14,7 @@ class TestOfflineOrder(CaseCode):
         super(TestOfflineOrder, self).__init__(*args, **kwargs)
 
     def test_01_create_order(self):
-        """ 创建线下订单 """
+        """ 新增ERP线下订单 """
         with self.setUp():
             data = self.data.get("offlineOrder")
             order_id = "test" + datetime.now().strftime('%Y%m%d%H%M%S')
@@ -49,7 +49,6 @@ class TestOfflineOrder(CaseCode):
             order_status = self.select_sql(self.sql.get("find_order") % self.procedure().value.get("order_code")) \
                 .get("order_status")
         with self.verify():
-            time.sleep(2)
             assert resp_code == 1000 and resp_msg == '操作成功', \
                 "错误，实际%s %s 数据库状态：%s  订单号：%s" % (
                     resp_code, resp_msg, order_status, self.procedure().value.get("order_code"))
@@ -121,5 +120,15 @@ class TestOfflineOrder(CaseCode):
             assert resp_code == 1000 and resp_msg == '操作成功', \
                 "错误，实际%s %s 数据库状态：%s  订单号：%s" % (
                     resp_code, resp_msg, order_status, self.procedure().value.get("order_code"))
+
             assert order_status == '已签收', "错误，实际数据库状态：%s  订单号：%s" % (
                 order_status, self.procedure().value.get("order_code"))
+
+    def test_06_cancel_order(self):
+        """ 取消线下订单 """
+        with self.setUp():
+            data = self.data.get("cancel_order")
+            data["orderProductCode"] = self.procedure().value.get("order_code")
+
+        with self.steps():
+            resp = self.cancel_order(data=data)

@@ -2,6 +2,7 @@
   PROJECT_TO_RUN: dss_system,
   LOG_LEVEL: WARN,
   AUTO_SEND_REPORT: False,
+  AUTO_SEND_Ding_Talk: False,
   DB: [
   {name: dss,
    type: mysql,
@@ -12,8 +13,7 @@
      password: TLNCxll8MStSnDNomWunjees3i8utfCt,
      database: db_g_order
    }
-  },
-
+  }
   ],
   EMAIL_SERVER: {
     sender: szguoyupeng@ininin.com,
@@ -23,5 +23,8 @@
     username: szguoyupeng@ininin.com,
     password: KTWoBWYDWdrDogaS
 
-  }
+  },
+  Ding_Talk: {
+    url: "https://oapi.dingtalk.com/robot/send?access_token=57bb5180c5abe7ee6630ab6f175017a3be28d2abce4754321b026c48b77950cd"   # 自动化测试沟通群
+  },
 }

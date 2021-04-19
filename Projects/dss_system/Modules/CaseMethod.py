@@ -5,6 +5,7 @@ class CaseCode(Base):
 
     def __init__(self, *args, **kwargs):
         super(CaseCode, self).__init__(*args, **kwargs)
+        a = "113"
 
     def create_order(self, data: str):
         """ 创建线下订单 """
@@ -40,3 +41,18 @@ class CaseCode(Base):
         headers = self.get_headers
         r = self.client.post(url=url, json=data, headers=headers, verify=False)
         return r
+
+    def add_or_modify_customer(self, data: str):
+        """ 新增或修改客户档案 """
+        url = self.url.get("test") + self.path.get("add_or_modify_customer")
+        headers = self.get_headers
+        r = self.client.post(url=url, json=data, headers=headers, verify=False)
+        return r
+
+    def cancel_order(self, data: str):
+        """ 取消订单 """
+        url = self.url.get("test") + self.path.get("cancel_order")
+        headers = self.get_headers
+        r = self.client.post(url=url, json=data, headers=headers, verify=False)
+        return r
+

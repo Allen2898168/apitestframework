@@ -82,5 +82,5 @@ class Case(TestCase):
 
     @contextmanager
     def save(self):
-        """ 数据清理 """
+        """ 数据保存 """
         yield self.save

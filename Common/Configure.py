@@ -31,4 +31,13 @@ class Configure:
     @classmethod
     def get_auto_send_report(cls):
         return cls.global_config().get("AUTO_SEND_REPORT")
+
+    @classmethod
+    def get_auto_send_ding_talk (cls):
+        return cls.global_config().get("AUTO_SEND_Ding_Talk")
+
+    @classmethod
+    def get_ding_talk_server_config(cls):
+        return cls.global_config().get("Ding_Talk").get("url")
+
 # print(Configure.get_global_config())
