@@ -1,4 +1,4 @@
-MODULES_TO_RUN: TestCases
+MODULES_TO_RUN:
 url:
   test: https://testopen.ininin.com
   pre: https://predss.ininin:com

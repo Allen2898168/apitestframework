@@ -1,10 +1,10 @@
 import re
-
-from Common.Case import Case
-import jsonpath
+import xlrd
 import json
-import datetime
 import random
+import jsonpath
+import datetime
+from Common.Case import Case
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
 
@@ -159,3 +159,29 @@ class Base(Case):
                 actual = re.findall(expr, resp.text)[0]
             expect = ver.split("=")[1]
             assert actual == expect, "错误，实际%s " % resp
+
+    # BASE_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+    def read_excel(self, excel_path):
+        workbook = xlrd.open_workbook(excel_path)
+        # 获取所有sheet
+        sheet_list = workbook.sheet_names()
+        sheets_data = []
+
+        for sheet in sheet_list:
+            sheet = workbook.sheet_by_name(sheet)
+            first_row = sheet.row_values(0)
+            rows_length = sheet.nrows
+            all_rows = []
+            rows_dict = []
+            for i in range(rows_length):
+                if i == 0:  # 跳过第一行
+                    continue
+                all_rows.append(sheet.row_values(i))
+            for row in all_rows:
+                lis = dict(zip(first_row, row))
+                rows_dict.append(lis)
+
+            sheet_data = {"sheet": sheet.name, "data": rows_dict}
+            sheets_data.append(sheet_data)
+        return sheets_data
