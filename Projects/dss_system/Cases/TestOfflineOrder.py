@@ -43,6 +43,7 @@ class TestOfflineOrder(CaseCode):
 
         with self.steps():
             resp = self.production_order(data=data)
+            resp.json()
             resp_json = json.loads(resp.text)
             resp_code = resp_json.get("resultCode")
             resp_msg = resp_json.get("resultMsg")
@@ -114,7 +115,7 @@ class TestOfflineOrder(CaseCode):
             resp_msg = resp_json.get("resultMsg")
             order_status = self.select_sql(self.sql.get("find_order") % self.procedure().value.get("order_code")) \
                 .get("order_status")
-
+            resp.status_code
         with self.verify():
             time.sleep(2)
             assert resp_code == 1000 and resp_msg == '操作成功', \

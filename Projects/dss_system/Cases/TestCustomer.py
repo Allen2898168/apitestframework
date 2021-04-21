@@ -2,6 +2,7 @@ from unittest import skip
 
 from Projects.dss_system.Modules.CaseMethod import CaseCode
 import json
+from contextlib import contextmanager
 
 
 class TestCustomer(CaseCode):
@@ -28,3 +29,4 @@ class TestCustomer(CaseCode):
 
         with self.cleanUp():
             self.execute_sql(self.sql.get("find_customer"))
+

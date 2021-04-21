@@ -1,4 +1,4 @@
-MODULES_TO_RUN:
+MODULES_TO_RUN: TestCases
 url:
   test: https://testopen.ininin.com
   pre: https://predss.ininin:com
@@ -14,13 +14,16 @@ path:
   update_online_order: /order_status_rollback/update_online_order_status
   add_or_modify_customer: /externalservice/basic/add_or_modify_customer?appKey=G4IF3vfnE6yFF1X2&sign=317afe6def361814f9facf1a3b0b330d&timestamp=1605230925068&fromer=gyp
   cancel_order: /externalservice/order/cancel?appKey=G4IF3vfnE6yFF1X2&timestamp=1605230925068&sign=317afe6def361814f9facf1a3b0b330d&fromer=gyp
-headers:
+
+DssHeader:
   Accept: application/json
 
+ZhibanHeader:
+  Accept: application/json
 
 data:
   peizhi:
-    [{"corrugatedType":"A","rate":1,"id":132},{"corrugatedType":"B","rate":1.35,"id":133},{"corrugatedType":"C","rate":1.41,"id":134},{"corrugatedType":"E","rate":1.26,"id":135},{"corrugatedType":"F","rate":1,"id":136}]
+    [ { "corrugatedType": "A","rate": 1,"id": 132 },{ "corrugatedType": "B","rate": 1.35,"id": 133 },{ "corrugatedType": "C","rate": 1.41,"id": 134 },{ "corrugatedType": "E","rate": 1.26,"id": 135 },{ "corrugatedType": "F","rate": 1,"id": 136 } ]
 
   offlineOrder:
     {
@@ -72,32 +75,32 @@ data:
 
   productionOrder:
     {
-      "productionData": [{
-          "externalOrderCode": {$},
-          "productionQuantity": 66,
-          "productiontDetailCode": "40"
-      }]
+      "productionData": [ {
+        "externalOrderCode": { $ },
+        "productionQuantity": 66,
+        "productiontDetailCode": "40"
+      } ]
     }
 
   enteringWarehouse:
     {
       "enteringWarehouseData": [
-          {
-              "corrugatedType": "C",
-              "disqualifiedQuantity": ,
-              "externalOrderCode": {$},
-              "materialCode": "A1C",
-              "orderProductCode": "",
-              "orderQuantity": 66,
-              "productiontDetailCode": "2008190021",
-              "productiontQuantity": 1800,
-              "productiontSize": "2010*278",
-              "stockedArea": 1005.804,
-              "stockedDetailCode": "1",
-              "stockedQuantity": 1800,
-              "warehouseCode": "001",
-              "warehouseName": "纸板仓库"
-          }]
+        {
+          "corrugatedType": "C",
+          "disqualifiedQuantity": ,
+          "externalOrderCode": { $ },
+          "materialCode": "A1C",
+          "orderProductCode": "",
+          "orderQuantity": 66,
+          "productiontDetailCode": "2008190021",
+          "productiontQuantity": 1800,
+          "productiontSize": "2010*278",
+          "stockedArea": 1005.804,
+          "stockedDetailCode": "1",
+          "stockedQuantity": 1800,
+          "warehouseCode": "001",
+          "warehouseName": "纸板仓库"
+        } ]
     }
 
   deliveryOrder:
@@ -112,7 +115,7 @@ data:
           "deliveryArea": 3400,
           "deliveryDetailCode": "",
           "deliveryPrice": 1.7,
-          "externalOrderCode": {$},
+          "externalOrderCode": { $ },
           "giftQuantity": 0,
           "orderProductCode": "",
           "quantity": 66,
@@ -127,7 +130,7 @@ data:
       "driverCode": "",
       "driverName": "郭宇鹏",
       "driverTel": "137000000000",
-      "externalDeliveryCode": {$},
+      "externalDeliveryCode": { $ },
       "loadWeight": 0,
       "logisticsDistance": 0,
       "logisticsPrice": 0,
@@ -148,7 +151,7 @@ data:
       "operationType": 1,
       "receiptList": [
         {
-          "externalOrderCode": {$},
+          "externalOrderCode": { $ },
           "orderProductCode": "",
           "quantity": 66,
           "receiptAmount": 466,
@@ -159,11 +162,11 @@ data:
       "remark": ""
     }
 
-  update_offline_order: {"orderId":{$},"inStatus":{$}}
+  update_offline_order: { "orderId": { $ },"inStatus": { $ } }
   update_online_order:
 
   add_or_modify_customer:
-     {
+    {
       "ERP客户建档": "客户建档测试数据",
       "areaPointNum": 9,
       "bankAccount": "3901330009000102729",
@@ -197,7 +200,7 @@ data:
       "transactionPointNum": 2,
       "unifiedSocialCreditCode": "913100006762205722",
       "updateTime": "2020-02-24 14:03:00"
-     }
+    }
   cancel_order:
     {
       "externalOrderCode": ,

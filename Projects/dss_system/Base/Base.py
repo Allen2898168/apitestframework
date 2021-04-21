@@ -1,3 +1,5 @@
+import re
+
 from Common.Case import Case
 import jsonpath
 import json
@@ -10,6 +12,10 @@ class Base(Case):
     def __init__(self, *args, **kwargs):
         super(Base, self).__init__(*args, **kwargs)
         self.client.packages.urllib3.disable_warnings(InsecureRequestWarning)
+        self.EXPR = '\$\{(.*?)\}'
+        self.FUNC_EXPR = '__.*?\(.*?\)'
+        self.saves = self.procedure().value
+        self.resp = None
 
     def gets_db_cursor(self):
         """连接dss项目， db_g_user数据库"""
@@ -34,7 +40,6 @@ class Base(Case):
         result = cursor.fetchone()
         return result
 
-    @staticmethod
     def get_time(self):
         """ 获取时间戳 唯一编号 """
         now_time = datetime.datetime.now().strftime("%Y%m%d%S")
@@ -59,3 +64,98 @@ class Base(Case):
         with self.cleanUp():
             # 存储token到公共变量池
             self.procedure().token["token"] = resp_token
+
+    def save_date(self, source, key, jexpr: str):
+        if jexpr.startswith("$"):
+            value = jsonpath.jsonpath(source, jexpr)
+            if not value:
+                raise KeyError("该jsonpath未匹配到值,请确认接口响应和jsonpath正确性")
+            value = value[0]
+            self.saves[key] = value
+            self.logger.warning("保存 {}=>{} 到全局变量池".format(key, value))
+        else:
+            self.saves[key] = jexpr
+            self.logger.warning("保存 {}=>{} 到全局变量池".format(key, jexpr))
+
+    def build_param(self, data):
+        keys = re.findall(self.EXPR, data)
+        for key in keys:
+            value = self.saves.get(key)
+            data = data.replace('${' + key + '}', str(value))
+
+        funcs = re.findall(self.FUNC_EXPR, data)
+        for func in funcs:
+            fuc = func.split('__')[1]
+            fuc_name = fuc.split("(")[0]
+            fuc = fuc.replace(fuc_name, fuc_name.lower())
+            value = eval(fuc)
+            data = data.replace(func, str(value))
+        return data
+
+    def execute_setup_sql(self, sql):
+        return self.select_sql(set_sql=sql)
+
+    def execute_teardown_sql(self, sql):
+        return self.select_sql(set_sql=sql)
+
+    def client_server(self, server):
+        # 判断请求环境类型
+        if server == "test":
+            server = self.url.get("test")
+        elif server == 'pre':
+            server = self.url.get("pre")
+        elif server == 'pro':
+            server = self.url.get("pro")
+        else:
+            server = self.logger.warning("未知环境")
+        return server
+
+    def token_header(self, header, resp):
+        if header == 'DssHeader':
+            self.get_headers.get("headers")['X-Auth-Token'] = jsonpath.jsonpath(resp, '$..token')[0]
+            self.get_headers.get("headers")['X-CURR-ENTERPRISE-ID'] = ''.join(
+                map(str, jsonpath.jsonpath(resp, "$..enterpriseId")))
+        elif header == 'ZhibanHeader':
+            self.get_headers.get("headers")['X-Auth-Token'] = jsonpath.jsonpath(resp, '$..token')[0]
+            self.get_headers.get("headers")['x-supplier-enterprise-id'] = str(
+                jsonpath.jsonpath(resp, "$..enterpriseId")[0])
+        else:
+            header = self.logger.warning("未知headers")
+        return header
+
+    def client_request(self, server, path, headers, is_token, method, body):
+
+        client_server = self.client_server(server)
+        headers = self.project_conf().get(headers)
+        url = client_server + path
+        body = json.loads(body)
+        if method.upper() == 'GET':
+            self.resp = self.client.get(url=url, params=body, headers=headers, verify=False)
+        elif method.upper() == 'POST':
+            self.resp = self.client.post(url=url, headers=headers, json=body, verify=False)
+        else:
+            self.logger.warning("其他请求方法待扩展")
+
+        if is_token:
+            self.token_header(headers, resp=self.resp)
+
+        return self.resp
+
+    def assert_verify(self, expect, resp):
+        # 遍历预期结果:
+        expect = expect.replace(' ', '').replace("\n", "")
+        for ver in expect.split(";"):
+            expr = ver.split("=")[0]
+            # 判断Jsonpath还是正则断言
+            if expr.startswith("$."):
+                actual = jsonpath.jsonpath(resp.json(), expr)
+
+                self.logger.warning(actual)
+
+                if not actual:
+                    raise KeyError("该jsonpath未匹配到值,请确认接口响应和jsonpath正确性")
+                actual = str(actual[0])
+            else:
+                actual = re.findall(expr, resp.text)[0]
+            expect = ver.split("=")[1]
+            assert actual == expect, "错误，实际%s " % resp

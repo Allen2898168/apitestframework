@@ -24,7 +24,6 @@ for fileName in os.listdir(casesDir):
         moduleName = fileName[:-3]
         modules.append(moduleName)
 
-
 class Test:
     # 收集测试用例
     @classmethod
@@ -33,6 +32,7 @@ class Test:
         if modules:
             for i in modules:
                 m = "Projects.%s.Cases.%s" % (runningProject, i)
+
                 s = importlib.import_module(m)
                 org_class = getattr(s, i)
                 class_name = org_class.__name__
@@ -46,6 +46,8 @@ class Test:
                     for c in dir(org_class):
                         if c.startswith("test_"):
                             su.addTest(org_class(c))
+            print(su)
+
         return su
 
 
@@ -54,12 +56,12 @@ if __name__ == '__main__':
     logger.setLevel(login_map.LoggingMap[logLevel])
     logging.basicConfig(format='%(asctime)s: %(levelname)s: %(message)s', stream=sys.stderr)
     MyTests = Test()
+    MyTests.suite()
     with open(reportPath, "wb") as f:
         runner = HTMLTestRunner(stream=f, title='Api Test Report', description='Project: %s' % runningProject,
                                 online='http://10.10.103.170/Report.html')
         runner.run(MyTests.suite())
         print(runner.getReportCount())
 
-    if global_conf.get_auto_send_report():
-        EmailSender.send_report(global_conf.get_mail_server_config(), reportPath)
-# <unittest.suite.TestSuite tests=[<Projects.dss_system.Cases.test.test testMethod=test_add>]>
+    # if global_conf.get_auto_send_report():
+    #     EmailSender.send_report(global_conf.get_mail_server_config(), reportPath)

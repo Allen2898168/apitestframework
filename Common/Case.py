@@ -1,4 +1,5 @@
 from unittest import TestCase
+import unittest
 from contextlib import contextmanager
 from Common.Configure import Configure
 from Common.Common import GlobaData, Common
@@ -12,7 +13,6 @@ import requests
 class Case(TestCase):
     """ 测试用例基类 """
     client = requests
-
     @classmethod
     def project_conf(cls):
         """ 获取项目配置 """
