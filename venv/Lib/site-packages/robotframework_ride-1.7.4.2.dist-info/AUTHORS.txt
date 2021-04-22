@@ -1,0 +1,41 @@
+The core team members:
+Ilmari Kontulainen
+Janne Härkönen
+Juha Rantanen
+Jussi Malinen
+Kari Husa
+Mikko Korpela
+Pekka Klärck
+Tatu Kairi
+Tommi Asiala
+
+
+Other contributors:
+Alexander Klose
+Andreas Brain
+Andrey Gavrilin
+Bjørn Forsman
+Bryan Oakley
+Charandeep S. Matta
+Ferenc Züllich
+Florian Heine
+Guillermo Zapata
+Hale
+Hélio Guilherme
+Jakov Peric
+Karol Szuster
+Kevin Ormbrek
+Leeuwen
+Petr Hudeček
+Timothy Alexander
+@2Eagle2
+@bale836
+@fzuellich
+@ghost
+@goodwillcoding
+@JediMaster93
+@Nyral
+@scathaig
+@StefaniGit
+@synsun
+@tuds
