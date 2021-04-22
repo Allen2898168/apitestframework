@@ -47,6 +47,8 @@ class TestOfflineOrder(CaseCode):
             resp_json = json.loads(resp.text)
             resp_code = resp_json.get("resultCode")
             resp_msg = resp_json.get("resultMsg")
+            self.logger.warning(self.procedure().value.get("order_code"))
+            self.logger.warning(self.select_sql(self.sql.get("find_order")))
             order_status = self.select_sql(self.sql.get("find_order") % self.procedure().value.get("order_code")) \
                 .get("order_status")
         with self.verify():
