@@ -48,6 +48,11 @@ class Base(Case):
         unique_num = str(now_time) + str(random_num)
         return unique_num
 
+    def get_data_time(self):
+        """ 获取当前日期时间 """
+        tomorrow = ((datetime.datetime.now() + datetime.timedelta()).strftime('%Y-%m-%d %H:%M:%S'))
+        return tomorrow
+
     def login(self):
         """获取token"""
         with self.setUp():
@@ -92,11 +97,17 @@ class Base(Case):
             data = data.replace(func, str(value))
         return data
 
-    def execute_setup_sql(self, sql):
-        return self.select_sql(set_sql=sql)
+    def setup_sql(self, sql):
+        if sql.startswith("select"):
+            return self.select_sql(set_sql=sql)
+        elif sql.startswith(("update", "insert", "delete")):
+            return self.execute_sql(set_sql=sql)
 
-    def execute_teardown_sql(self, sql):
-        return self.select_sql(set_sql=sql)
+    def teardown_sql(self, sql):
+        if sql.startswith("select"):
+            return self.select_sql(set_sql=sql)
+        elif sql.startswith(("update", "insert", "delete")):
+            return self.execute_sql(set_sql=sql)
 
     def client_server(self, server):
         # 判断请求环境类型
@@ -127,7 +138,8 @@ class Base(Case):
 
         client_server = self.client_server(server)
         headers = self.project_conf().get(headers)
-        url = client_server + path
+        app_key = self.project_conf().get("appkey").get(server)
+        url = client_server + path + app_key
         body = json.loads(body)
         if method.upper() == 'GET':
             self.resp = self.client.get(url=url, params=body, headers=headers, verify=False)
@@ -149,9 +161,6 @@ class Base(Case):
             # 判断Jsonpath还是正则断言
             if expr.startswith("$."):
                 actual = jsonpath.jsonpath(resp.json(), expr)
-
-                self.logger.warning(actual)
-
                 if not actual:
                     raise KeyError("该jsonpath未匹配到值,请确认接口响应和jsonpath正确性")
                 actual = str(actual[0])
@@ -159,8 +168,6 @@ class Base(Case):
                 actual = re.findall(expr, resp.text)[0]
             expect = ver.split("=")[1]
             assert actual == expect, "错误，实际%s " % resp
-
-    # BASE_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     def read_excel(self, excel_path):
         workbook = xlrd.open_workbook(excel_path)

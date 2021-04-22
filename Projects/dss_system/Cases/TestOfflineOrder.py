@@ -19,6 +19,7 @@ class TestOfflineOrder(CaseCode):
             data = self.data.get("offlineOrder")
             order_id = "test" + datetime.now().strftime('%Y%m%d%H%M%S')
             data['externalOrderCode'] = order_id
+            data['orderTime'] = self.get_data_time()
 
         with self.steps():
             # 请求
@@ -43,7 +44,6 @@ class TestOfflineOrder(CaseCode):
 
         with self.steps():
             resp = self.production_order(data=data)
-            resp.json()
             resp_json = json.loads(resp.text)
             resp_code = resp_json.get("resultCode")
             resp_msg = resp_json.get("resultMsg")
@@ -129,7 +129,28 @@ class TestOfflineOrder(CaseCode):
         """ 取消线下订单 """
         with self.setUp():
             data = self.data.get("cancel_order")
-            data["orderProductCode"] = self.procedure().value.get("order_code")
+            data["externalOrderCode"] = self.procedure().value.get("order_code")
 
         with self.steps():
             resp = self.cancel_order(data=data)
+            resp_json = json.loads(resp.text)
+            resp_code = resp_json.get("resultCode")
+            resp_msg = resp_json.get("resultMsg")
+
+        with self.verify():
+            assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)
+
+    def test_07_end_order(self):
+        """ 完结订单 """
+        with self.setUp():
+            data = self.data.get("end_order")
+            data["externalOrderCode"] = self.procedure().value.get("order_code")
+
+        with self.steps():
+            resp = self.cancel_order(data=data)
+            resp_json = json.loads(resp.text)
+            resp_code = resp_json.get("resultCode")
+            resp_msg = resp_json.get("resultMsg")
+
+        with self.verify():
+            assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)

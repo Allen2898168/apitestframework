@@ -1,7 +1,7 @@
-import xlrd
 import unittest
 import os
-from ddt import ddt
+import json
+from ddt import ddt, data, unpack
 from Projects.dss_system.Base.Base import Base
 
 BASE_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -32,14 +32,13 @@ def test_{sheet}(self,case_id,title,server,path,is_skip,headers,is_token,method,
         path = self.build_param(path)
         body = self.build_param(request_data)
         expect_result = self.build_param(expect_result)
-        # setup_sql = self.execute_setup_sql(setup_sql)
-        # teardown_sql = self.execute_teardown_sql(teardown_sql)
-
+        setup_sql = self.setup_sql(setup_sql)
+        teardown_sql = self.teardown_sql(teardown_sql)
 
     with self.steps():
-        if is_skip == 0:
+        if is_skip == "skip":
             self.logger.warning("跳过用例编号：%s,标题：%s" %(case_id,title))
-        elif is_skip == 1:
+        elif is_skip is not "skip":
             self.logger.warning("执行用例编号：%s,标题：%s" %(case_id,title))
             resp = self.client_request(server,path,headers,is_token,method,body)
             resp_json = json.loads(resp.text)

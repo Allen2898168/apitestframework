@@ -30,3 +30,4 @@ class TestCustomer(CaseCode):
         with self.cleanUp():
             self.execute_sql(self.sql.get("find_customer"))
 
+

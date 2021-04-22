@@ -46,7 +46,6 @@ class Test:
                     for c in dir(org_class):
                         if c.startswith("test_"):
                             su.addTest(org_class(c))
-            print(su)
 
         return su
 
@@ -61,7 +60,6 @@ if __name__ == '__main__':
         runner = HTMLTestRunner(stream=f, title='Api Test Report', description='Project: %s' % runningProject,
                                 online='http://10.10.103.170/Report.html')
         runner.run(MyTests.suite())
-        print(runner.getReportCount())
 
-    # if global_conf.get_auto_send_report():
-    #     EmailSender.send_report(global_conf.get_mail_server_config(), reportPath)
+    if global_conf.get_auto_send_report():
+        EmailSender.send_report(global_conf.get_mail_server_config(), reportPath)

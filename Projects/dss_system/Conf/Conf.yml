@@ -1,19 +1,23 @@
-MODULES_TO_RUN:
+MODULES_TO_RUN: TestOfflineOrder
 url:
   test: https://testopen.ininin.com
   pre: https://predss.ininin:com
   pro: https://dss.ininin:com
 
+appkey:
+    test: appKey=G4IF3vfnE6yFF1X2&timestamp=1605230925068&sign=317afe6def361814f9facf1a3b0b330d&fromer=gyp
+
 path:
   offlineOrder: /externalservice/order_difference/unified_sync_order_internal?requestSource=1&syncType=32&appKey=G4IF3vfnE6yFF1X2
-  production: /externalservice/order/production?appKey=G4IF3vfnE6yFF1X2&sign=38aea1ec1a20174e375da92a29f7cbfd&timestamp=1605230925068&fromer=gyp
-  enteringWarehouse: /externalservice/order/entering_warehouse?appKey=G4IF3vfnE6yFF1X2&sign=efd093e3caa732006a648c246f7c2c41&timestamp=1605230925068&fromer=gyp
-  deliveryOrder: /externalservice/order/delivery?appKey=G4IF3vfnE6yFF1X2&sign=e811ca5ff0eb3c536493e0bd91121aa8&timestamp=1605230925068&fromer=gyp
-  receiptOrder: /externalservice/order/receipt?appKey=G4IF3vfnE6yFF1X2&sign=317afe6def361814f9facf1a3b0b330d&timestamp=1605230925068&fromer=gyp
+  production: /externalservice/order/production
+  enteringWarehouse: /externalservice/order/entering_warehouse
+  deliveryOrder: /externalservice/order/delivery
+  receiptOrder: /externalservice/order/receipt
   update_offline_order: /order_status_rollback/update_offline_order_status
   update_online_order: /order_status_rollback/update_online_order_status
-  add_or_modify_customer: /externalservice/basic/add_or_modify_customer?appKey=G4IF3vfnE6yFF1X2&sign=317afe6def361814f9facf1a3b0b330d&timestamp=1605230925068&fromer=gyp
-  cancel_order: /externalservice/order/cancel?appKey=G4IF3vfnE6yFF1X2&timestamp=1605230925068&sign=317afe6def361814f9facf1a3b0b330d&fromer=gyp
+  add_or_modify_customer: /externalservice/basic/add_or_modify_customer
+  cancel_order: /externalservice/order/cancel
+  end_order: /externalservice/order/end_order
 
 DssHeader:
   Accept: application/json
@@ -37,7 +41,7 @@ data:
       "cuttingMode": 1,
       "deliveryDate": "2020-11-15 00:00:00",
       "deliveryRemark": "",
-      "externalOrderCode": "test202103120005",
+      "externalOrderCode": "{}",
       "externalOrderType": 1,
       "lineDepth": 0,
       "lineMode": 1,
@@ -203,12 +207,18 @@ data:
     }
   cancel_order:
     {
-      "externalOrderCode": ,
-      "operationType": 1,
-      "orderProductCode":
-
+        "externalOrderCode": ,
+        "operationType": 1,
+        "orderProductCode":
     }
-
+  end_order:
+    {
+        "operationType": 1,
+        "orderProductCode": "",
+        "externalOrderCode": "",
+        "orderQuantity": "",
+        "differenceQuantity": ""
+    }
 
 sql:
   find_order: SELECT * FROM `db_g_order`.`data_order` WHERE `order_code` = '%s'

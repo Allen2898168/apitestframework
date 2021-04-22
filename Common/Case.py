@@ -45,6 +45,7 @@ class Case(TestCase):
         self.data = self.project_conf().get("data")
         self.url = self.project_conf().get("url")
         self.path = self.project_conf().get("path")
+        self.appkey = self.project_conf().get("appkey")
         self.get_headers = self.project_conf().get("headers")
         self.sql = self.project_conf().get("sql")
         self.logger = logging
