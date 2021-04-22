@@ -6,7 +6,7 @@ from Projects.dss_system.Base.Base import Base
 
 BASE_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-excel_data = os.path.join(path, "Conf", "case.xlsx")
+excel_data = os.path.join(path, "Conf", "case.xls")
 
 excel_data = Base().read_excel(excel_path=excel_data)
 

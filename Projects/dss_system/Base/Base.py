@@ -1,5 +1,5 @@
 import re
-import xlrd
+import xlrd, openpyxl
 import json
 import random
 import jsonpath

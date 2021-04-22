@@ -1,3 +1,4 @@
+# coding=UTF-8
 import unittest
 import os, sys, logging, yaml
 from Common.Reporter import HTMLTestRunner
@@ -5,7 +6,6 @@ import Common.LoggingMap as login_map
 import importlib
 from Common.Mailer import EmailSender
 from Common.Configure import Configure
-from unittestreport import TestRunner
 
 frameworkDir = os.path.dirname(__file__)
 global_conf = Configure()
