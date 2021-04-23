@@ -35,7 +35,6 @@ class TestOfflineOrder(CaseCode):
         with self.save():
             # 保存订单id
             self.procedure().value.update({"order_code": order_id})
-            self.logger.warning(self.procedure().value.get("order_code"))
 
     def test_02_production_order(self):
         """ 测试订单排产 """
@@ -127,7 +126,7 @@ class TestOfflineOrder(CaseCode):
                 order_status, self.procedure().value.get("order_code"))
 
     def test_06_cancel_order(self):
-        """ 取消线下订单 """
+        """ 测试取消线下订单 """
         with self.setUp():
             data = self.data.get("cancel_order")
             data["externalOrderCode"] = self.procedure().value.get("order_code")
@@ -142,7 +141,7 @@ class TestOfflineOrder(CaseCode):
             assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)
 
     def test_07_end_order(self):
-        """ 完结订单 """
+        """ 测试完结订单 """
         with self.setUp():
             data = self.data.get("end_order")
             data["externalOrderCode"] = self.procedure().value.get("order_code")
