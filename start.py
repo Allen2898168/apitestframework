@@ -58,9 +58,8 @@ if __name__ == '__main__':
     MyTests.suite()
     with open(reportPath, "wb") as f:
         runner = HTMLTestRunner(stream=f, title='Api Test Report', description='Project: %s' % runningProject,
-                                online='http://10.10.103.170/Report.html')
+                                online='http://10.10.103.170/ErpReport.html')
         runner.run(MyTests.suite())
 
     if global_conf.get_auto_send_report():
-        logger.warning(reportPath)
         EmailSender.send_report(global_conf.get_mail_server_config(), reportPath)
