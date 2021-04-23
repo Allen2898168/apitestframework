@@ -11,8 +11,6 @@ class EmailSender:
     def send_report(cls, conf, result_file_abs_path):
 
         result_file_name = result_file_abs_path.split("/")[-1]
-        print(result_file_name)
-        print(result_file_abs_path)
         sender = conf.get("sender")
         receivers = conf.get("receivers")
         subject = conf.get("subject")
