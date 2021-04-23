@@ -1,4 +1,6 @@
 import re
+import time
+
 import xlrd, openpyxl
 import json
 import random
@@ -34,6 +36,7 @@ class Base(Case):
 
     def select_sql(self, set_sql):
         """ 查询数据 """
+        time.sleep(2)
         conn, cursor = self.gets_db_cursor()
         sql = set_sql
         cursor.execute(sql)
