@@ -17,11 +17,11 @@
   ],
   EMAIL_SERVER: {
     sender: szguoyupeng@ininin.com,
-    receivers: szguoyupeng@ininin.com,
+    receivers: [szguoyupeng@ininin.com],
     subject: api测试报告,
     smtp_server: smtp.exmail.qq.com,
     username: szguoyupeng@ininin.com,
-    password: KTWoBWYDWdrDogaS
+    password: PKiGdYfu98kH6MgQ
 
   },
   Ding_Talk: {

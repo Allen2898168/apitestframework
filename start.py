@@ -12,7 +12,7 @@ global_conf = Configure()
 runningProject = global_conf.get_running_project()
 casesDir = os.path.join(frameworkDir, "Projects", runningProject, "Cases")
 logLevel = global_conf.get_loglevel()
-reportPath = os.path.join(frameworkDir, "Report", "Report.html")
+reportPath = os.path.join(frameworkDir, "Report", "ErpReport.html")
 # conf = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 with open(os.path.join(frameworkDir, "Projects", runningProject, "Conf", "Conf.yml"), "r", encoding="utf-8") as f:
     project_conf = yaml.load(f, Loader=yaml.SafeLoader)
