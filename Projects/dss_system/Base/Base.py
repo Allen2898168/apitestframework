@@ -56,22 +56,22 @@ class Base(Case):
         tomorrow = ((datetime.datetime.now() + datetime.timedelta()).strftime('%Y-%m-%d %H:%M:%S'))
         return tomorrow
 
-    def login(self):
-        """获取token"""
-        with self.setUp():
-            data = self.data.get("loginDate")
-            data["password"] = self.encrypt_md5(self.encrypt_md5(data.get("password")))
-
-        with self.steps():
-            resp = self.client.post(url=self.url.get("loginUrl"), json=data, headers=self.get_headers, verify=False)
-            resp_data = json.loads(resp.text)
-            resp_token = ''.join(jsonpath.jsonpath(resp_data, "$..token"))
-        with self.verify():
-            assert resp_token is not None, "错误 返回%s, token获取异常" % resp_token
-
-        with self.cleanUp():
-            # 存储token到公共变量池
-            self.procedure().token["token"] = resp_token
+    # def login(self):
+    #     """获取token"""
+    #     with self.setUp():
+    #         data = self.data.get("loginDate")
+    #         data["password"] = self.encrypt_md5(self.encrypt_md5(data.get("password")))
+    #
+    #     with self.steps():
+    #         resp = self.client.post(url=self.url.get("loginUrl"), json=data, headers=self.get_headers, verify=False)
+    #         resp_data = json.loads(resp.text)
+    #         resp_token = ''.join(jsonpath.jsonpath(resp_data, "$..token"))
+    #     with self.verify():
+    #         assert resp_token is not None, "错误 返回%s, token获取异常" % resp_token
+    #
+    #     with self.cleanUp():
+    #         # 存储token到公共变量池
+    #         self.procedure().token["token"] = resp_token
 
     def save_date(self, source, key, jexpr: str):
         if jexpr.startswith("$"):
@@ -130,9 +130,8 @@ class Base(Case):
             self.get_headers.get("headers")['X-CURR-ENTERPRISE-ID'] = ''.join(
                 map(str, jsonpath.jsonpath(resp, "$..enterpriseId")))
         elif header == 'ZhibanHeader':
-            self.get_headers.get("headers")['X-Auth-Token'] = jsonpath.jsonpath(resp, '$..token')[0]
-            self.get_headers.get("headers")['x-supplier-enterprise-id'] = str(
-                jsonpath.jsonpath(resp, "$..enterpriseId")[0])
+            self.get_headers.get("zhibanHeader")['X-Auth-Token'] = jsonpath.jsonpath(resp, '$..token')[0]
+            self.get_headers.get("zhibanHeader")['x-supplier-enterprise-id'] = jsonpath.jsonpath(resp, "$..enterpriseId")[0]
         else:
             header = self.logger.warning("未知headers")
         return header

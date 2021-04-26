@@ -25,6 +25,6 @@
 
   },
   Ding_Talk: {
-    url: "https://oapi.dingtalk.com/robot/send?access_token=57bb5180c5abe7ee6630ab6f175017a3be28d2abce4754321b026c48b77950cd"   # 自动化测试沟通群
+    url: "https://oapi.dingtalk.com/robot/send?access_token=57bb5180c5abe7ee6630ab6f175017a3be28d2abce4754321b026c48b77950cd"   # 钉钉群机器人token
   },
 }

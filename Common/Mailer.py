@@ -2,6 +2,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from datetime import datetime
+from jinja2 import Environment, FileSystemLoader
 
 
 class EmailSender:
@@ -9,7 +10,6 @@ class EmailSender:
     # 发送邮件
     @classmethod
     def send_report(cls, conf, result_file_abs_path):
-
         result_file_name = result_file_abs_path.split("/")[-1]
         sender = conf.get("sender")
         receivers = conf.get("receivers")
@@ -21,9 +21,14 @@ class EmailSender:
         msg_root['Subject'] = subject + str(datetime.now())
         msg_root["From"] = sender
         msg_root["To"] = ", ".join(receivers)
+
+        # env = Environment(loader=FileSystemLoader(result_file_abs_path))
+        # template = env.get_template(result_file_name)
+        # res = template.render(msg_root)
+
         with open(result_file_abs_path, "rb") as f:
             content = f.read()
-        msg_content_html = MIMEText(content, 'html', 'utf-8')
+        msg_content_html = MIMEText(content, _subtype='html', _charset='utf-8')
         msg_attach = MIMEText(content, 'base64', 'utf-8')
         msg_attach["Content-Type"] = 'application/octet-stream'
         msg_attach["Content-Disposition"] = 'attachment; filename=%s' % result_file_name

@@ -50,6 +50,7 @@ class Test:
         return su
 
 
+
 if __name__ == '__main__':
     logger = logging.getLogger()
     logger.setLevel(login_map.LoggingMap[logLevel])

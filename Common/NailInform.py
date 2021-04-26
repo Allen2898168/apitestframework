@@ -1,10 +1,10 @@
-# !/usr/bin/env python3
 # coding=utf-8
 import json, urllib3
+from unittestreport import TestRunner
 
-
-# 发送钉钉消息
 class DingTalkSender:
+
+    # 发送钉钉消息
     @classmethod
     def nail_inform(self, conf, token):
         d = dict(conf)
@@ -15,7 +15,7 @@ class DingTalkSender:
         url = token  # 钉钉token
         con = {"msgtype": "text",
                "text": {
-                   "content": "测试钉钉机器人测试报告。\n测试概述:\n运行总数:" + retries_run + "\n执行情况:" + status + "\n在线测试报告:" + result_online}
+                   "content": "自动化测试报告。\n测试概述:\n运行总数:" + retries_run + "\n执行情况:" + status + "\n在线测试报告:" + result_online}
                }
         urllib3.disable_warnings()
         http = urllib3.PoolManager()
