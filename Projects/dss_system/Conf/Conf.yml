@@ -1,8 +1,12 @@
-MODULES_TO_RUN:
+MODULES_TO_RUN: TestOnlineOrder
 url:
   test: https://testopen.ininin.com
   pre: https://predss.ininin:com
   pro: https://dss.ininin:com
+
+buyer_url:
+  test:  https://testcardboard.ininin.com
+
 
 appkey:
   test: appKey=G4IF3vfnE6yFF1X2&timestamp=1605230925068&sign=317afe6def361814f9facf1a3b0b330d&fromer=gyp
@@ -23,9 +27,10 @@ path:
   account_quota: /externalservice/finance/account_period
   customer_address: /externalservice/basic/add_or_modify_customer_address
   buyer_login: /user/v3/buyer/login?queryFrom=buyer
-  cart_order: /order/place/order/cart?queryFrom=buyer
-
-
+  buyer_cart_order: /order/place/order/cart?queryFrom=buyer
+  buyer_create_order: /order/place/order/create/order?queryFrom=buyer
+  buyer_order_pay: /order/place/order/pay?queryFrom=buyer
+  notify_order_generated: /externalservice/order/notify_order_generated
 header:
     DssHeader:
         Accept: application/json
@@ -35,322 +40,368 @@ header:
 
 
 data:
-  offlineOrder:
-    {
-      "additionalAmount": 0,
-      "corrugatedType": "B",
-      "createTime": "",
-      "creator": "天安60TA",
-      "customerCode": "Y003",
-      "customerName": "苏州天安包装材料有限公司",
-      "cutNumber": 2,
-      "cuttingMode": 1,
-      "deliveryDate": "2020-11-15 00:00:00",
-      "deliveryRemark": "",
-      "externalOrderCode": "{}",
-      "externalOrderType": 1,
-      "lineDepth": 0,
-      "lineMode": 1,
-      "lineNumber": 3,
-      "lineSizeA": 122,
-      "lineSizeB": 365,
-      "lineSizeC": 122,
-      "lineSizeD": 0,
-      "lineSizeE": 0,
-      "lineSizeF": 0,
-      "materialCode": "Q4Q",
-      "netArea": 0.837375,
-      "operationType": 1,
-      "orderProductCode": "",
-      "orderTime": "2020-11-12 19:00:00",
-      "piecePrice": 2.4,
-      "poNo": "",
-      "productPrice": 158.4,
-      "productRemark": "",
-      "productType": 100,
-      "productionSize": "1375*609",
-      "productionWidth": 1300,
-      "quantity": 66,
-      "receiveAddress": "宝安啊兄弟",
-      "receiver": "黎志良",
-      "receiverPhone": "18858214109",
-      "sizeX": 1375,
-      "sizeY": 609,
-      "transactionPrice": 2.8,
-      "trimming": 82,
-      "valuationArea": 0.857315,
-      "valuationUnit": 1,
-      "width": 1300
-    }
+    offlineOrder:
+      {
+        "additionalAmount": 0,
+        "corrugatedType": "B",
+        "createTime": "",
+        "creator": "天安60TA",
+        "customerCode": "Y003",
+        "customerName": "苏州天安包装材料有限公司",
+        "cutNumber": 2,
+        "cuttingMode": 1,
+        "deliveryDate": "2020-11-15 00:00:00",
+        "deliveryRemark": "",
+        "externalOrderCode": "{}",
+        "externalOrderType": 1,
+        "lineDepth": 0,
+        "lineMode": 1,
+        "lineNumber": 3,
+        "lineSizeA": 122,
+        "lineSizeB": 365,
+        "lineSizeC": 122,
+        "lineSizeD": 0,
+        "lineSizeE": 0,
+        "lineSizeF": 0,
+        "materialCode": "Q4Q",
+        "netArea": 0.837375,
+        "operationType": 1,
+        "orderProductCode": "",
+        "orderTime": "2020-11-12 19:00:00",
+        "piecePrice": 2.4,
+        "poNo": "",
+        "productPrice": 158.4,
+        "productRemark": "",
+        "productType": 100,
+        "productionSize": "1375*609",
+        "productionWidth": 1300,
+        "quantity": 66,
+        "receiveAddress": "宝安啊兄弟",
+        "receiver": "黎志良",
+        "receiverPhone": "18858214109",
+        "sizeX": 1375,
+        "sizeY": 609,
+        "transactionPrice": 2.8,
+        "trimming": 82,
+        "valuationArea": 0.857315,
+        "valuationUnit": 1,
+        "width": 1300
+      }
 
-  productionOrder:
-    {
-      "productionData": [ {
-        "externalOrderCode": "",
-        "productionQuantity": 66,
-        "productiontDetailCode": "40"
-      } ]
-    }
-
-  enteringWarehouse:
-    {
-      "enteringWarehouseData": [
+    productionOrder:
         {
-          "corrugatedType": "C",
-          "disqualifiedQuantity": ,
-          "externalOrderCode": "",
-          "materialCode": "Q4Q",
-          "orderProductCode": "",
-          "orderQuantity": 66,
-          "productiontDetailCode": "2008190021",
-          "productiontQuantity": 1800,
-          "productiontSize": "2010*278",
-          "stockedArea": 1005.804,
-          "stockedDetailCode": "1",
-          "stockedQuantity": 1800,
-          "warehouseCode": "001",
-          "warehouseName": "纸板仓库"
-        } ]
-    }
-
-  deliveryOrder:
-    {
-      "address": "广东省深圳市南山区金蝶",
-      "capacity": 0,
-      "customerCode": "Y003",
-      "deliveryDate": "2021-2-4 0:00:00",
-      "deliveryList": [
-        {
-          "deliveryAmount": 900,
-          "deliveryArea": 3400,
-          "deliveryDetailCode": "",
-          "deliveryPrice": 1.7,
-          "externalOrderCode": { $ },
-          "giftQuantity": 0,
-          "orderProductCode": "",
-          "quantity": 66,
-          "remark": "",
-          "warehouseCode": "001",
-          "warehouseName": "纸板仓库"
+          "productionData": [ {
+            "externalOrderCode": "",
+            "productionQuantity": 66,
+            "productiontDetailCode": "40"
+          } ]
         }
-      ],
-      "deliveryRemark": "",
-      "deliveryType": 2,
-      "deliveryUser": "",
-      "driverCode": "",
-      "driverName": "郭宇鹏",
-      "driverTel": "137000000000",
-      "externalDeliveryCode": { $ },
-      "loadWeight": 0,
-      "logisticsDistance": 0,
-      "logisticsPrice": 0,
-      "operateDate": "2021-02-04 22:13:13",
-      "operatePerson": "郭宇鹏",
-      "operationType": 1,
-      "outWarehouseUser": "",
-      "truckModel": "",
-      "truckNo": "210204-30",
-      "truckNumber": "粤P60B01"
-    }
 
-  receiptOrder:
-    {
-      "externalDeliveryCode": "",
-      "operateDate": "",
-      "operatePerson": "",
-      "operationType": 1,
-      "receiptList": [
+    enteringWarehouse:
         {
-          "externalOrderCode": { $ },
-          "orderProductCode": "",
-          "quantity": 66,
-          "receiptAmount": 466,
-          "receiptArea": 148.77,
-          "receiptPrice": 4.66
+          "enteringWarehouseData": [
+            {
+              "corrugatedType": "C",
+              "disqualifiedQuantity": ,
+              "externalOrderCode": "",
+              "materialCode": "Q4Q",
+              "orderProductCode": "",
+              "orderQuantity": 66,
+              "productiontDetailCode": "2008190021",
+              "productiontQuantity": 1800,
+              "productiontSize": "2010*278",
+              "stockedArea": 1005.804,
+              "stockedDetailCode": "1",
+              "stockedQuantity": 1800,
+              "warehouseCode": "001",
+              "warehouseName": "纸板仓库"
+            } ]
         }
-      ],
-      "remark": ""
-    }
 
-  update_offline_order:
-    {
-      "orderId": "",
-      "inStatus": ""
-    }
+    deliveryOrder:
+        {
+          "address": "广东省深圳市南山区金蝶",
+          "capacity": 0,
+          "customerCode": "Y003",
+          "deliveryDate": "2021-2-4 0:00:00",
+          "deliveryList": [
+            {
+              "deliveryAmount": 900,
+              "deliveryArea": 3400,
+              "deliveryDetailCode": "",
+              "deliveryPrice": 1.7,
+              "externalOrderCode": { $ },
+              "giftQuantity": 0,
+              "orderProductCode": "",
+              "quantity": 66,
+              "remark": "",
+              "warehouseCode": "001",
+              "warehouseName": "纸板仓库"
+            }
+          ],
+          "deliveryRemark": "",
+          "deliveryType": 2,
+          "deliveryUser": "",
+          "driverCode": "",
+          "driverName": "郭宇鹏",
+          "driverTel": "137000000000",
+          "externalDeliveryCode": { $ },
+          "loadWeight": 0,
+          "logisticsDistance": 0,
+          "logisticsPrice": 0,
+          "operateDate": "2021-02-04 22:13:13",
+          "operatePerson": "郭宇鹏",
+          "operationType": 1,
+          "outWarehouseUser": "",
+          "truckModel": "",
+          "truckNo": "210204-30",
+          "truckNumber": "粤P60B01"
+        }
 
-  update_online_order: ""
-
-  add_or_modify_customer:
-    {
-      "ERP客户建档": "客户建档测试数据",
-      "areaPointNum": 9,
-      "bankAccount": "3901330009000102729",
-      "bankName": "中国招商银行",
-      "basicCredits": 17463946,
-      "businessType": 200,
-      "contactAddress": "深圳市",
-      "contactMobilePhone": "13806655358",
-      "contactName": "郭宇鹏",
-      "contactTelephone": "65238081",
-      "createTime": "2017-05-24 09:04:39",
-      "customerCode": "",
-      "customerFullName": "深圳市云印技术纸业有限公司",
-      "customerService": "郭",
-      "customerShortName": "云印纸业",
-      "customerType": 100,
-      "externalCustomerCode": "550",
-      "faxNumber": "65238080",
-      "industry": 0,
-      "mnemonicCode": "NHBP",
-      "operationType": 1,
-      "payMethod": 0,
-      "periodNum": 60,
-      "periodType": 1,
-      "piecePointNum": 2,
-      "priceIncludeTax": 1,
-      "quantityRequirement": 0,
-      "remark": "测试项目",
-      "saleMan": "郭",
-      "statementDate": 25,
-      "transactionPointNum": 2,
-      "unifiedSocialCreditCode": "913100006762205722",
-      "updateTime": "2020-02-24 14:03:00"
-    }
-  cancel_order:
-    {
-      "externalOrderCode": ,
-      "operationType": 1,
-      "orderProductCode":
-    }
-  end_order:
-    {
-      "operationType": 1,
-      "orderProductCode": "",
-      "externalOrderCode": "",
-      "orderQuantity": "",
-      "differenceQuantity": ""
-    }
-  after_sale:
-    {
-      "afterSaleCode": "",
-      "afterSaleOrderProductList": [
+    receiptOrder:
         {
           "externalDeliveryCode": "",
-          "externalOrderCode": "",
+          "operateDate": "",
+          "operatePerson": "",
+          "operationType": 1,
+          "receiptList": [
+            {
+              "externalOrderCode": { $ },
+              "orderProductCode": "",
+              "quantity": 66,
+              "receiptAmount": 466,
+              "receiptArea": 148.77,
+              "receiptPrice": 4.66
+            }
+          ],
+          "remark": ""
+        }
+
+    update_offline_order:
+        {
+          "orderId": "",
+          "inStatus": ""
+        }
+
+    update_online_order: ""
+
+    add_or_modify_customer:
+        {
+          "ERP客户建档": "客户建档测试数据",
+          "areaPointNum": 9,
+          "bankAccount": "3901330009000102729",
+          "bankName": "中国招商银行",
+          "basicCredits": 17463946,
+          "businessType": 200,
+          "contactAddress": "深圳市",
+          "contactMobilePhone": "13806655358",
+          "contactName": "郭宇鹏",
+          "contactTelephone": "65238081",
+          "createTime": "2017-05-24 09:04:39",
+          "customerCode": "",
+          "customerFullName": "深圳市云印技术纸业有限公司",
+          "customerService": "郭",
+          "customerShortName": "云印纸业",
+          "customerType": 100,
+          "externalCustomerCode": "550",
+          "faxNumber": "65238080",
+          "industry": 0,
+          "mnemonicCode": "NHBP",
+          "operationType": 1,
+          "payMethod": 0,
+          "periodNum": 60,
+          "periodType": 1,
+          "piecePointNum": 2,
+          "priceIncludeTax": 1,
+          "quantityRequirement": 0,
+          "remark": "测试项目",
+          "saleMan": "郭",
+          "statementDate": 25,
+          "transactionPointNum": 2,
+          "unifiedSocialCreditCode": "913100006762205722",
+          "updateTime": "2020-02-24 14:03:00"
+        }
+    cancel_order:
+        {
+          "externalOrderCode": ,
+          "operationType": 1,
+          "orderProductCode":
+        }
+    end_order:
+        {
+          "operationType": 1,
           "orderProductCode": "",
-          "refundAmount": 1,
-          "refundQuantity": 6,
+          "externalOrderCode": "",
+          "orderQuantity": "",
+          "differenceQuantity": ""
+        }
+    after_sale:
+        {
+          "afterSaleCode": "",
+          "afterSaleOrderProductList": [
+            {
+              "externalDeliveryCode": "",
+              "externalOrderCode": "",
+              "orderProductCode": "",
+              "refundAmount": 1,
+              "refundQuantity": 6,
+              "remark": "",
+              "returnArea": 36,
+              "returnDetailCode": "TH123",
+              "returnReason": "七天无理由退换货"
+            }
+          ],
+          "afterSaleType": 2,
+          "customerCode": "",
+          "externalDeliveryCode": "",
+          "externalAfterSaleCode": "TH123",
+          "operateDate": "",
+          "operatePerson": "郭宇鹏",
+          "operationType": 1,
+          "refundTime": "",
+          "remark": "自动化测试售后记录"
+        }
+
+    statement_bill:
+        {
+          "additionalAmount": 0,
+          "customerCode": "11829",
+          "customerFullName": "江西裕丰纸业有限公司",
+          "dataList": [
+            {
+              "additionalAmount": 0,
+              "corrugatedType": "B",
+              "cutNumber": 0,
+              "materialCode": "Q4Q-B",
+              "remark": "测试对账单",
+              "serialNo": 1,
+              "sizeX": 1090,
+              "sizeY": 1390,
+              "statementAmount": 466,
+              "statementArea": 151.51,
+              "statementDetailCode": "DZD123456",
+              "statementPrice": 4.66,
+              "statementQuantity": 66,
+              "width": 0
+            },
+            {
+              "additionalAmount": 0,
+              "corrugatedType": "B",
+              "cutNumber": 0,
+              "materialCode": "Q4Q-B",
+              "remark": "WKJS0171426/2020-09-19",
+              "serialNo": 2,
+              "sizeX": 1030,
+              "sizeY": 1250,
+              "statementAmount": 1161,
+              "statementArea": 386.25,
+              "statementDetailCode": "DZD123456",
+              "statementPrice": 3.87,
+              "statementQuantity": 300,
+              "width": 0
+            }
+          ],
+          "invoiceCode": "0",
+          "invoiceType": 1,
+          "invoicingDate": "",
+          "operateDate": "",
+          "operatePerson": "lzl",
+          "operationType": 0,
           "remark": "",
-          "returnArea": 36,
-          "returnDetailCode": "TH123",
-          "returnReason": "七天无理由退换货"
+          "statementAmount": 1627,
+          "statementArea": 537.76,
+          "statementCode": "DZD123456",
+          "statementEndDate": "",
+          "statementMethod": 1,
+          "statementQuantity": 400,
+          "statementStartDate": "",
+          "statementStatus": 4,
+          "statementType": 2
         }
-      ],
-      "afterSaleType": 2,
-      "customerCode": "",
-      "externalDeliveryCode": "",
-      "externalAfterSaleCode": "TH123",
-      "operateDate": "",
-      "operatePerson": "郭宇鹏",
-      "operationType": 1,
-      "refundTime": "",
-      "remark": "自动化测试售后记录"
-    }
-
-  statement_bill:
-    {
-      "additionalAmount": 0,
-      "customerCode": "11829",
-      "customerFullName": "江西裕丰纸业有限公司",
-      "dataList": [
+    account_quota:
         {
-          "additionalAmount": 0,
-          "corrugatedType": "B",
-          "cutNumber": 0,
-          "materialCode": "Q4Q-B",
-          "remark": "测试对账单",
-          "serialNo": 1,
-          "sizeX": 1090,
-          "sizeY": 1390,
-          "statementAmount": 466,
-          "statementArea": 151.51,
-          "statementDetailCode": "DZD123456",
-          "statementPrice": 4.66,
-          "statementQuantity": 66,
-          "width": 0
-        },
-        {
-          "additionalAmount": 0,
-          "corrugatedType": "B",
-          "cutNumber": 0,
-          "materialCode": "Q4Q-B",
-          "remark": "WKJS0171426/2020-09-19",
-          "serialNo": 2,
-          "sizeX": 1030,
-          "sizeY": 1250,
-          "statementAmount": 1161,
-          "statementArea": 386.25,
-          "statementDetailCode": "DZD123456",
-          "statementPrice": 3.87,
-          "statementQuantity": 300,
-          "width": 0
+          "accountType": 2,
+          "availableCredit": 10000,
+          "basicCredit": 0,
+          "basicCreditNum": 30,
+          "creditCode": "ED123456",
+          "creditFeeRate": 0,
+          "creditType": 1,
+          "customerCode": "Y003",
+          "lateFeeRate": 0,
+          "overdueLimit": 0,
+          "remark": "自动化新增临时额度10000,授信至2021-12-31",
+          "tempCreditEndDate": "",
+          "updateTime": ""
         }
-      ],
-      "invoiceCode": "0",
-      "invoiceType": 1,
-      "invoicingDate": "",
-      "operateDate": "",
-      "operatePerson": "lzl",
-      "operationType": 0,
-      "remark": "",
-      "statementAmount": 1627,
-      "statementArea": 537.76,
-      "statementCode": "DZD123456",
-      "statementEndDate": "",
-      "statementMethod": 1,
-      "statementQuantity": 400,
-      "statementStartDate": "",
-      "statementStatus": 4,
-      "statementType": 2
-    }
-  account_quota:
-    {
-      "accountType": 2,
-      "availableCredit": 10000,
-      "basicCredit": 0,
-      "basicCreditNum": 30,
-      "creditCode": "ED123456",
-      "creditFeeRate": 0,
-      "creditType": 1,
-      "customerCode": "Y003",
-      "lateFeeRate": 0,
-      "overdueLimit": 0,
-      "remark": "自动化新增临时额度10000,授信至2021-12-31",
-      "tempCreditEndDate": "",
-      "updateTime": ""
-    }
-  customer_address:
-    {
-      "address": "广东省深圳市南山区科技南十二路7号",
-      "addressCode": "",
-      "consigneeName": "郭宇鹏",
-      "consigneeTelephone": "13554724153",
-      "createTime": "",
-      "customerCode": "",
-      "distance": 33,
-      "externalAddressCode": "",
-      "externalCustomerCode": "Y003",
-      "isDefault": 0,
-      "isDisable": 0,
-      "operationType": 1,
-      "remark": "自动化测试客户地址",
-      "routeCode": "12345",
-      "routeName": "宁海北区(1,2,3,4)",
-      "updateTime": ""
-    }
 
-  buyer_login: { userName: "13806655301", loginType: 2, password: "123456" }
+    customer_address:
+        {
+          "address": "广东省深圳市南山区科技南十二路7号",
+          "addressCode": "",
+          "consigneeName": "郭宇鹏",
+          "consigneeTelephone": "13554724153",
+          "createTime": "",
+          "customerCode": "",
+          "distance": 33,
+          "externalAddressCode": "",
+          "externalCustomerCode": "Y003",
+          "isDefault": 0,
+          "isDisable": 0,
+          "operationType": 1,
+          "remark": "自动化测试客户地址",
+          "routeCode": "12345",
+          "routeName": "宁海北区(1,2,3,4)",
+          "updateTime": ""
+        }
+
+    buyer_login:
+        userName: "13806655301"
+        loginType: 2
+        password: "123456"
+
+    buyer_cart_order:
+        -
+            key: "0"
+            productId: 3055
+            materialCode: "P8P"
+            corrugatedType: "B"
+            specType: 0
+            length: 1700
+            breadth: 1200
+            quantity: 100
+            cuttingMode: 1
+            lineMode: 1
+            lineDepth: 1
+            expectedDeliveryTime: ""
+            productRemark: ~
+            orderUnit: 0
+            lineSize:
+              - 550
+              - 100
+              - 550
+
+            placeType: "GROUP"
+            addressId: 3112
+    buyer_create_order:
+      addressId: 3112
+      payment: 10
+      cartIds:
+        - ~
+    buyer_order_pay:
+      addrCategory: web
+      payMethod: 10
+      orderIdList:
+        - ~
+      payPassword: "123456"
+    notify_order_generated:
+      orderProductList:
+        -
+          syncResult: True
+          orderProductCode: ~
+
 sql:
   find_order: SELECT * FROM `db_g_order`.`data_order` WHERE `order_code` = '%s'
   find_customer: DELETE  from  db_g_erp.data_erp_customer where  seller_enterprise_id = '6606' and short_name = '云印纸业'
+  find_order_id: select CONCAT(o.order_code,'OP',p.order_product_code) as "order_code" from `order` o,order_product p where  o.order_id = p.order_id and p.order_id = '%s';
 

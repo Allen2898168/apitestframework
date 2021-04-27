@@ -24,7 +24,7 @@ class TestOfflineOrder(CaseCode):
 
         with self.steps():
             # 请求
-            resp = self.create_order(data)
+            resp = self.create_offline_order(data)
             resp_json = json.loads(resp.text)
             resp_code = resp_json.get("resultCode")
             resp_msg = resp_json.get("resultMsg")
@@ -198,4 +198,3 @@ class TestOfflineOrder(CaseCode):
             assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)
 
 
-    

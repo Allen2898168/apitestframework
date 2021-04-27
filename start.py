@@ -1,4 +1,5 @@
 # coding=UTF-8
+import platform
 import unittest
 import os, sys, logging, yaml
 from Common.Reporter import HTMLTestRunner
@@ -62,5 +63,12 @@ if __name__ == '__main__':
                                 online='http://10.10.103.170/ErpReport.html')
         runner.run(MyTests.suite())
 
+    # if global_conf.get_auto_send_report():
+    #     EmailSender.send_report(global_conf.get_mail_server_config(), reportPath)
     if global_conf.get_auto_send_report():
-        EmailSender.send_report(global_conf.get_mail_server_config(), reportPath)
+        system = platform.system()
+        if system == "Windows":
+            logger.warning("windows开发环境，不发邮件")
+        elif system == "Linux":
+            logger.warning("linux环境，发邮件")
+            EmailSender.send_report(global_conf.get_mail_server_config(), reportPath)

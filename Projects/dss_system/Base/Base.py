@@ -36,7 +36,7 @@ class Base(Case):
 
     def select_sql(self, set_sql):
         """ 查询数据 """
-        time.sleep(2)
+        self.logger.warning(set_sql)
         conn, cursor = self.gets_db_cursor()
         sql = set_sql
         cursor.execute(sql)
@@ -130,11 +130,13 @@ class Base(Case):
             self.get_headers.get("headers")['X-CURR-ENTERPRISE-ID'] = ''.join(
                 map(str, jsonpath.jsonpath(resp, "$..enterpriseId")))
         elif header == 'ZhibanHeader':
-            self.get_headers.get("zhibanHeader")['X-Auth-Token'] = jsonpath.jsonpath(resp, '$..token')[0]
-            self.get_headers.get("zhibanHeader")['x-supplier-enterprise-id'] = jsonpath.jsonpath(resp, "$..enterpriseId")[0]
+            header = self.get_headers.get("zhibanHeader")
+            header['X-Auth-Token'] = jsonpath.jsonpath(resp, '$..token')[0]
+            header['x-supplier-enterprise-id'] = str(jsonpath.jsonpath(resp, "$..enterpriseId")[0])
+            return header
         else:
-            header = self.logger.warning("未知headers")
-        return header
+            return self.logger.warning("未知headers")
+
 
     def client_request(self, server, path, headers, is_token, method, body):
 

@@ -44,6 +44,7 @@ class Case(TestCase):
         super(Case, self).__init__(*args, **kwargs)
         self.data = self.project_conf().get("data")
         self.url = self.project_conf().get("url")
+        self.buyer_url = self.project_conf().get("buyer_url")
         self.path = self.project_conf().get("path")
         self.appkey = self.project_conf().get("appkey")
         self.get_headers = self.project_conf().get("header")

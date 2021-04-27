@@ -27,6 +27,76 @@ class TestOnlineOrder(CaseCode):
             assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)
 
         with self.save():
-            self.token_header(header="ZhibanHeader", resp=resp_json)  # 存储请求头
+            token = self.token_header(header="ZhibanHeader", resp=resp_json)
+            self.procedure().value.update({"zhibanHeader": token})
 
+    def test_02_cart_order(self):
+        """ 测试下单商品，加入购物车 """
 
+        with self.setUp():
+            data = self.data.get("buyer_cart_order")
+
+        with self.steps():
+            resp = self.buyer_cart_order(data=data)
+            resp_json = json.loads(resp.text)
+            resp_code = resp_json.get("resultCode")
+            resp_msg = resp_json.get("resultMsg")
+            resp_data = resp_json.get("resultData")
+
+        with self.verify():
+            assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)
+
+        with self.save():
+            self.procedure().value.update({"cart_id": resp_data})
+
+    def test_03_create_order(self):
+        """ 测试处理购物车订单，生成订单 """
+
+        with self.setUp():
+            data = self.data.get("buyer_create_order")
+            data["cartIds"] = self.procedure().value.get("cart_id")
+
+        with self.steps():
+            resp = self.buyer_create_order(data=data)
+            resp_json = json.loads(resp.text)
+            resp_code = resp_json.get("resultCode")
+            resp_msg = resp_json.get("resultMsg")
+            resp_data = resp_json.get("resultData").get("orderIds")
+
+        with self.verify():
+            assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)
+
+        with self.save():
+            self.procedure().value.update({"order_id": resp_data})
+
+    def test_04_order_pay(self):
+        """ 测试订单支付 """
+
+        with self.setUp():
+            data = self.data.get("buyer_order_pay")
+            data["orderIdList"] = self.procedure().value.get("order_id")
+            data["payPassword"] = self.encrypt_md5(self.encrypt_md5(data["payPassword"]))
+
+        with self.steps():
+            resp = self.buyer_order_pay(data=data)
+            resp_json = json.loads(resp.text)
+            resp_code = resp_json.get("resultCode")
+            resp_msg = resp_json.get("resultMsg")
+
+        with self.verify():
+            assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)
+
+    def test_05_notify_order_generated(self):
+        """ 测试云印订单接单通知 """
+        with self.setUp():
+            data = self.data.get("notify_order_generated")
+            data[0]["orderProductCode"] = self.select_sql(
+                set_sql=self.sql.get("find_order_id") % self.procedure().value.get("order_id")[0]).get("order_code")
+        with self.steps():
+            resp = self.notify_order_generated(data=data)
+            resp_json = json.loads(resp.text)
+            resp_code = resp_json.get("resultCode")
+            resp_msg = resp_json.get("resultMsg")
+
+        with self.verify():
+            assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)
