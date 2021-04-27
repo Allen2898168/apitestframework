@@ -17,7 +17,7 @@
   ],
   EMAIL_SERVER: {
     sender: szguoyupeng@ininin.com,
-    receivers: [szguoyupeng@ininin.com,szsunxuan@ininin.com,szquruhao@ininin.com],
+    receivers: [szguoyupeng@ininin.com,szsunxuan@ininin.com,szquruhao@ininin.com,],
     subject: api测试报告,
     smtp_server: smtp.exmail.qq.com,
     username: szguoyupeng@ininin.com,
