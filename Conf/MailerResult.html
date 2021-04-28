@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ERP自动化测试报告</title>
+    <style type="text/css">
+        .main {
+            height: 300px;
+        }
+
+        .summary {
+            width: 90%;
+            position: absolute;
+            margin-left: 5%;
+        }
+
+        .title {
+            width: auto;
+            height: 60px;
+            text-align: center;
+            font: bolder 38px/60px "Microsoft YaHei UI";
+            color: #02992c;
+            margin-bottom: 50px;
+        }
+
+        .text-left {
+            text-align: left;
+            font: bolder 20px/30px "Microsoft YaHei UI";
+            color: #02992c;
+            margin-bottom: 20px;
+        }
+        tr {
+            cursor: pointer;
+        }
+
+        td, th {
+            border: solid 1px rgba(133, 137, 140, 0.76);
+            height: 50px;
+            min-width: 150px;
+        }
+
+        td {
+            color: #02992c;
+            padding-left: 5%;
+        }
+        th {
+            color: #00a10a;
+
+        }
+    </style>
+
+</head>
+<body>
+<div class="main">
+    <div class="summary">
+        <div class="text-left">{{ title }}：</div>
+        <table width=70% border="4" cellpadding="10" cellspacing="10" bordercolor="#6495ED"
+               style="border-collapse:collapse;">
+            <tr >
+                <th colspan="3">在线测试报告地址</th>
+                <td colspan="3"><span>{{ online }}</span></td>
+            </tr>
+            <tr>
+                <th colspan="1">测试人员</th>
+                <td colspan="2">{{ tester }}</td>
+                <th colspan="1">用例总数</th>
+                <td colspan="2"><span>{{ all }}</span></td>
+            </tr>
+            <tr>
+                <th colspan="1">开始时间</th>
+                <td colspan="2"><span>{{ begin_time }}</span></td>
+                <th colspan="1">执行时间</th>
+                <td colspan="2"><span>{{ runtime }}</span></td>
+            </tr>
+            <tr>
+                <th>成功用例</th>
+                <td><span>{{ success }}</span></td>
+                <th style="color: #cc8b0c">失败用例</th>
+                <td style="color: #cc8b0c">{{ fail }}</td>
+                <th style="color: #cc013b">错误用例</th>
+                <td><span style="color: #cc0109">{{ error }}</span></td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+
+</body>
+</html>
