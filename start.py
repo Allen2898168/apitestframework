@@ -7,7 +7,7 @@ import Common.LoggingMap as login_map
 import importlib
 from Common.Mailer import EmailSender
 from Common.Configure import Configure
-
+from unittestreport import rerun
 frameworkDir = os.path.dirname(__file__)
 global_conf = Configure()
 runningProject = global_conf.get_running_project()
@@ -59,7 +59,7 @@ if __name__ == '__main__':
     MyTests = Test()
     MyTests.suite()
     with open(reportPath, "wb") as f:
-        runner = HTMLTestRunner(stream=f, title='Api Test Report', description='Project: %s' % runningProject,
+        runner = HTMLTestRunner(stream=f, title='开放服务中心接口测试报告', description='Project: %s' % runningProject,
                                 online='http://10.10.103.170/ErpReport.html')
         runner.run(MyTests.suite())
 

@@ -36,7 +36,6 @@ class Base(Case):
 
     def select_sql(self, set_sql):
         """ 查询数据 """
-        self.logger.warning(set_sql)
         conn, cursor = self.gets_db_cursor()
         sql = set_sql
         cursor.execute(sql)
@@ -136,7 +135,6 @@ class Base(Case):
             return header
         else:
             return self.logger.warning("未知headers")
-
 
     def client_request(self, server, path, headers, is_token, method, body):
 

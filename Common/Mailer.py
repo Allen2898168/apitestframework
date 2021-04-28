@@ -1,3 +1,4 @@
+import os
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -22,13 +23,15 @@ class EmailSender:
         msg_root["From"] = sender
         msg_root["To"] = ", ".join(receivers)
 
-        # env = Environment(loader=FileSystemLoader(result_file_abs_path))
-        # template = env.get_template(result_file_name)
-        # res = template.render(msg_root)
-
+        frameworkDir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        reportPath = os.path.join(frameworkDir, "Report", "Mailer_Report.html")
         with open(result_file_abs_path, "rb") as f:
             content = f.read()
-        msg_content_html = MIMEText(content, _subtype='html', _charset='utf-8')
+
+        with open(reportPath, "rb") as f:
+            main_content = f.read()
+
+        msg_content_html = MIMEText(main_content, _subtype='html', _charset='utf-8')
         msg_attach = MIMEText(content, 'base64', 'utf-8')
         msg_attach["Content-Type"] = 'application/octet-stream'
         msg_attach["Content-Disposition"] = 'attachment; filename=%s' % result_file_name
@@ -39,4 +42,3 @@ class EmailSender:
         smtp.login(username, password)
         smtp.sendmail(sender, receivers, msg_root.as_string())
         smtp.quit()
-

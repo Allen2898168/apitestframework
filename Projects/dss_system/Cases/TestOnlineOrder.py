@@ -88,10 +88,12 @@ class TestOnlineOrder(CaseCode):
 
     def test_05_notify_order_generated(self):
         """ 测试云印订单接单通知 """
+
         with self.setUp():
             data = self.data.get("notify_order_generated")
-            data[0]["orderProductCode"] = self.select_sql(
+            order_id = self.select_sql(
                 set_sql=self.sql.get("find_order_id") % self.procedure().value.get("order_id")[0]).get("order_code")
+            data["orderProductList"][0]["orderProductCode"] = order_id
         with self.steps():
             resp = self.notify_order_generated(data=data)
             resp_json = json.loads(resp.text)

@@ -10,8 +10,7 @@ class CaseCode(Base):
     def create_offline_order(self, data: str):
         """ 创建线下订单 """
         url = self.url.get("test") + self.path.get("offlineOrder")
-        headers = self.get_headers
-        r = self.client.post(url=url, json=data, headers=headers, verify=False)
+        r = self.client.post(url=url, json=data, verify=False)
         return r
 
     def production_order(self, data: str):

@@ -68,7 +68,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 __author__ = "Wai Yip Tung"
 __version__ = "0.9.1"
 
+import os
 import re
+
+from jinja2 import Environment
 
 """
 Change History
@@ -333,6 +336,7 @@ class Template_mixin(object):
                 trigger: 'item',
                 formatter: "{a} <br/>{b} : {c} ({d}%%)"
             },
+            
             color: ['#95b75d', 'grey', '#b64645'],
             legend: {
                 orient: 'vertical',
@@ -561,9 +565,105 @@ class Template_mixin(object):
 
     ENDING_TMPL = """<div id='ending'>&nbsp;</div>"""
 
+    Mailer_Result = """
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试报告</title>
+    <!--    页面样式-->
+    <style type="text/css">
+        .main {
+            height: 300px;
+        }
 
+        /*汇总信息样式*/
+        .summary {
+            width: 90%;
+            position: absolute;
+            margin-left: 5%;
+        }
+
+        .title {
+            width: auto;
+            height: 60px;
+            text-align: center;
+            font: bolder 38px/60px "Microsoft YaHei UI";
+            color: #02992c;
+            margin-bottom: 50px;
+        }
+
+        .text-left {
+            text-align: left;
+            font: bolder 20px/30px "Microsoft YaHei UI";
+            color: #02992c;
+            margin-bottom: 20px;
+        }
+
+        td, th {
+            border: solid 1px rgba(133, 137, 140, 0.76);
+            height: 50px;
+            width: 200px;
+        }
+
+        td {
+            color: #02992c;
+            padding-left: 5%;
+        }
+        th {
+            color: #00a10a;
+
+        }
+    </style>
+
+</head>
+<body>
+<div class="main">
+    <!--汇总信息-->
+    <div class="summary">
+        <div class="text-left">【{{ title }}】用例执行汇总信息如下：</div>
+        <table width=60% border="1" cellpadding="0" cellspacing="0" bordercolor="#FF0000"
+               style="border-collapse:collapse;">
+            <tr>
+                <th>测试人员</th>
+                <td>{{ tester }}</td>
+                <th>成功用例</th>
+                <td><span>{{ success }}</span></td>
+            </tr>
+            <tr>
+                <th>开始时间</th>
+                <td><span>{{ begin_time }}</span></td>
+                <th style="color: #cc8b0c">失败用例</th>
+                <td style="color: #cc8b0c">{{ fail }}</td>
+            </tr>
+            <tr>
+                <th>执行时间</th>
+                <td><span>{{ runtime }}</span></td>
+                <th style="color: #cc0109">错误用例</th>
+                <td><span style="color: #cc0109">{{ error }}</span></td>
+            </tr>
+            <tr>
+                <th>用例总数</th>
+                <td><span>{{ all }}</span></td>
+                <th style="color: #575a5c">跳过用例</th>
+                <td><span style="color: #575a5c">{{ skip }}</span></td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+
+</body>
+</html>
+    """
 # -------------------- The end of the Template class -------------------
 
+
+# --------------------guo yu peng  Template  -----------------------
+
+
+# --------------------guo yu peng  Template  end -----------------------
 
 TestResult = unittest.TestResult
 global_conf = Configure()
@@ -708,9 +808,11 @@ class _TestResult(TestResult):
 class HTMLTestRunner(Template_mixin):
 
     def __init__(self, stream=sys.stdout, verbosity=1, title=None, description=None, online=None):
-
+        self.test_result = {}
         self.stream = stream
+
         self.verbosity = verbosity
+
         if title is None:
             self.title = self.DEFAULT_TITLE
         else:
@@ -803,7 +905,37 @@ class HTMLTestRunner(Template_mixin):
             ending=ending,
             chart_script=chart
         )
-        self.stream.write(output.encode('utf8'))
+
+        self.test_result["runtime"] = dict(report_attrs)["运行时长"]
+        self.test_result["tester"] = "郭宇鹏"
+        self.test_result["success"] = result.success_count
+        self.test_result["fail"] = result.failure_count
+        self.test_result["error"] = result.error_count
+        self.test_result["all"] = dict(report_attrs)["用例总数"]
+        self.test_result["online"] = dict(report_attrs)["在线测试报告地址"]
+        self.test_result["begin_time"] = dict(report_attrs)["开始时间"]
+        self.test_result["title"] = saxutils.escape(self.title)
+
+
+        self.stream.write(output.encode('utf8'))   # 写内容进html模板
+
+        from jinja2 import Environment, FileSystemLoader
+
+        frameworkDir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        reportPath = os.path.join(frameworkDir, "Conf")
+
+        env = Environment(loader=FileSystemLoader(reportPath))
+        template = env.get_template('MailerResult.html')
+
+        reportPath = os.path.join(frameworkDir, "Report", "Mailer_Report.html")
+
+        # reportPath = sys.stdout
+        #
+        # reportPath.write()
+        res = template.render(self.test_result)
+        with open(reportPath, "wb") as f:
+            f.write(res.encode('utf8'))
+
         if global_conf.get_auto_send_ding_talk():
             self.dd_msg(report_attrs, Configure.get_ding_talk_server_config())  # 发送钉钉消息
 
@@ -870,6 +1002,7 @@ class HTMLTestRunner(Template_mixin):
             fail=str(result.failure_count),
             error=str(result.error_count),
         )
+
         return report
 
     def _generate_chart(self, result):

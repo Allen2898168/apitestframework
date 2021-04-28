@@ -41,7 +41,6 @@ class TestOfflineOrder(CaseCode):
         with self.setUp():
             data = self.data.get("productionOrder")
             data['productionData'][0]['externalOrderCode'] = self.procedure().value.get("order_code")
-            self.logger.warning(self.procedure().value.get("order_code"))
         with self.steps():
             resp = self.production_order(data=data)
             resp_json = json.loads(resp.text)
