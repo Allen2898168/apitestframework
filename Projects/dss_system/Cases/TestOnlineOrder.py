@@ -38,11 +38,13 @@ class TestOnlineOrder(CaseCode):
 
         with self.steps():
             resp = self.buyer_cart_order(data=data)
-            resp_json = json.loads(resp.text)
-            resp_code = resp_json.get("resultCode")
-            resp_msg = resp_json.get("resultMsg")
-            resp_data = resp_json.get("resultData")
-
+            try:
+                resp_json = json.loads(resp.text)
+                resp_code = resp_json.get("resultCode")
+                resp_msg = resp_json.get("resultMsg")
+                resp_data = resp_json.get("resultData")
+            except:
+                self.logger.warning(resp_json)
         with self.verify():
             assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)
 
@@ -58,10 +60,14 @@ class TestOnlineOrder(CaseCode):
 
         with self.steps():
             resp = self.buyer_create_order(data=data)
-            resp_json = json.loads(resp.text)
-            resp_code = resp_json.get("resultCode")
-            resp_msg = resp_json.get("resultMsg")
-            resp_data = resp_json.get("resultData").get("orderIds")
+            try:
+
+                resp_json = json.loads(resp.text)
+                resp_code = resp_json.get("resultCode")
+                resp_msg = resp_json.get("resultMsg")
+                resp_data = resp_json.get("resultData").get("orderIds")
+            except:
+                self.logger.warning(resp_json)
 
         with self.verify():
             assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)

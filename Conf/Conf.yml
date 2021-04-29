@@ -17,9 +17,9 @@
   ],
   EMAIL_SERVER: {
     sender: szguoyupeng@ininin.com,
-    receivers: [szguoyupeng@ininin.com,szsunxuan@ininin.com,szquruhao@ininin.com,szweiyinping@ininin.com,szluojianan@ininin.com,shtangting@ininin.com,szsuimingxia@ininin.com,shliyunpeng@ininin.com],
+    receivers: [szsunxuan@ininin.com,szquruhao@ininin.com,sztangqiang@ininin.com,tester@ininin.com],
 #    receivers: [szguoyupeng@ininin.com,120894802@qq.com],
-    subject: 开放服务中心测试报告,
+    subject: 开放服务中心测试报告_郭宇鹏,
     smtp_server: smtp.exmail.qq.com,
     username: szguoyupeng@ininin.com,
     password: PKiGdYfu98kH6MgQ

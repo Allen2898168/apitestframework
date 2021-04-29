@@ -42,12 +42,15 @@ class TestOfflineOrder(CaseCode):
             data = self.data.get("productionOrder")
             data['productionData'][0]['externalOrderCode'] = self.procedure().value.get("order_code")
         with self.steps():
-            resp = self.production_order(data=data)
-            resp_json = json.loads(resp.text)
-            resp_code = resp_json.get("resultCode")
-            resp_msg = resp_json.get("resultMsg")
-            order_status = self.select_sql(self.sql.get("find_order") % self.procedure().value.get("order_code")) \
-                .get("order_status")
+            try:
+                resp = self.production_order(data=data)
+                resp_json = json.loads(resp.text)
+                resp_code = resp_json.get("resultCode")
+                resp_msg = resp_json.get("resultMsg")
+                order_status = self.select_sql(self.sql.get("find_order") % self.procedure().value.get("order_code")) \
+                    .get("order_status")
+            except:
+                self.logger.warning(resp_json)
         with self.verify():
             assert resp_code == 1000 and resp_msg == '操作成功', \
                 "错误，实际%s %s 数据库状态：%s  订单号：%s" % (
@@ -63,11 +66,14 @@ class TestOfflineOrder(CaseCode):
 
         with self.steps():
             resp = self.entering_warehouse(data=data)
-            resp_json = json.loads(resp.text)
-            resp_code = resp_json.get("resultCode")
-            resp_msg = resp_json.get("resultMsg")
-            order_status = self.select_sql(self.sql.get("find_order") % self.procedure().value.get("order_code")) \
-                .get("order_status")
+            try:
+                resp_json = json.loads(resp.text)
+                resp_code = resp_json.get("resultCode")
+                resp_msg = resp_json.get("resultMsg")
+                order_status = self.select_sql(self.sql.get("find_order") % self.procedure().value.get("order_code")) \
+                    .get("order_status")
+            except:
+                self.logger.warning(resp_json)
 
         with self.verify():
             time.sleep(2)
@@ -86,11 +92,14 @@ class TestOfflineOrder(CaseCode):
 
         with self.steps():
             resp = self.delivery_order(data=data)
-            resp_json = json.loads(resp.text)
-            resp_code = resp_json.get("resultCode")
-            resp_msg = resp_json.get("resultMsg")
-            order_status = self.select_sql(self.sql.get("find_order") % self.procedure().value.get("order_code")) \
-                .get("order_status")
+            try:
+                resp_json = json.loads(resp.text)
+                resp_code = resp_json.get("resultCode")
+                resp_msg = resp_json.get("resultMsg")
+                order_status = self.select_sql(self.sql.get("find_order") % self.procedure().value.get("order_code")) \
+                    .get("order_status")
+            except:
+                self.logger.warning(resp_json)
 
         with self.verify():
             time.sleep(2)
@@ -109,11 +118,14 @@ class TestOfflineOrder(CaseCode):
 
         with self.steps():
             resp = self.receipt_order(data=data)
-            resp_json = json.loads(resp.text)
-            resp_code = resp_json.get("resultCode")
-            resp_msg = resp_json.get("resultMsg")
-            order_status = self.select_sql(self.sql.get("find_order") % self.procedure().value.get("order_code")) \
-                .get("order_status")
+            try:
+                resp_json = json.loads(resp.text)
+                resp_code = resp_json.get("resultCode")
+                resp_msg = resp_json.get("resultMsg")
+                order_status = self.select_sql(self.sql.get("find_order") % self.procedure().value.get("order_code")) \
+                    .get("order_status")
+            except:
+                self.logger.warning(resp_json)
 
         with self.verify():
             time.sleep(2)
@@ -132,9 +144,12 @@ class TestOfflineOrder(CaseCode):
 
         with self.steps():
             resp = self.cancel_order(data=data)
-            resp_json = json.loads(resp.text)
-            resp_code = resp_json.get("resultCode")
-            resp_msg = resp_json.get("resultMsg")
+            try:
+                resp_json = json.loads(resp.text)
+                resp_code = resp_json.get("resultCode")
+                resp_msg = resp_json.get("resultMsg")
+            except:
+                self.logger.warning(resp_json)
 
         with self.verify():
             assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)
@@ -147,9 +162,12 @@ class TestOfflineOrder(CaseCode):
 
         with self.steps():
             resp = self.end_order(data=data)
-            resp_json = json.loads(resp.text)
-            resp_code = resp_json.get("resultCode")
-            resp_msg = resp_json.get("resultMsg")
+            try:
+                resp_json = json.loads(resp.text)
+                resp_code = resp_json.get("resultCode")
+                resp_msg = resp_json.get("resultMsg")
+            except:
+                self.logger.warning(resp_json)
 
         with self.verify():
             assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)

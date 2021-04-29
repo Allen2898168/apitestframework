@@ -1,20 +1,20 @@
 # coding=UTF-8
 import platform
 import unittest
-import os, sys, logging, yaml
+import os, logging, yaml
 from Common.Reporter import HTMLTestRunner
-import Common.LoggingMap as login_map
+from Common.LoggingMap import system_logging
 import importlib
 from Common.Mailer import EmailSender
 from Common.Configure import Configure
-from unittestreport import rerun
+
 frameworkDir = os.path.dirname(__file__)
 global_conf = Configure()
 runningProject = global_conf.get_running_project()
 casesDir = os.path.join(frameworkDir, "Projects", runningProject, "Cases")
 logLevel = global_conf.get_loglevel()
 reportPath = os.path.join(frameworkDir, "Report", "ErpReport.html")
-# conf = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+logPath = os.path.join(frameworkDir, "Log", "LogERP.txt")
 with open(os.path.join(frameworkDir, "Projects", runningProject, "Conf", "Conf.yml"), "r", encoding="utf-8") as f:
     project_conf = yaml.load(f, Loader=yaml.SafeLoader)
     modulesToRun = project_conf.get("MODULES_TO_RUN")
@@ -24,6 +24,7 @@ for fileName in os.listdir(casesDir):
     if fileName.startswith("Test") and fileName.endswith(".py"):
         moduleName = fileName[:-3]
         modules.append(moduleName)
+
 
 class Test:
     # 收集测试用例
@@ -41,7 +42,9 @@ class Test:
                     for j in modulesToRun.split(", "):
                         if j == class_name:
                             for c in dir(org_class):
+
                                 if c.startswith("test_"):
+
                                     su.addTest(org_class(c))
                 else:
                     for c in dir(org_class):
@@ -51,11 +54,9 @@ class Test:
         return su
 
 
-
 if __name__ == '__main__':
     logger = logging.getLogger()
-    logger.setLevel(login_map.LoggingMap[logLevel])
-    logging.basicConfig(format='%(asctime)s: %(levelname)s: %(message)s', stream=sys.stderr)
+    system_logging(logLevel, logPath)
     MyTests = Test()
     MyTests.suite()
     with open(reportPath, "wb") as f:
