@@ -1,12 +1,13 @@
 # coding=UTF-8
 import platform
 import unittest
-import os, logging, yaml
+import os, sys, logging, yaml
 from Common.Reporter import HTMLTestRunner
 from Common.LoggingMap import system_logging
 import importlib
 from Common.Mailer import EmailSender
 from Common.Configure import Configure
+import Common.LoggingMap as login_map
 
 frameworkDir = os.path.dirname(__file__)
 global_conf = Configure()
@@ -44,7 +45,6 @@ class Test:
                             for c in dir(org_class):
 
                                 if c.startswith("test_"):
-
                                     su.addTest(org_class(c))
                 else:
                     for c in dir(org_class):

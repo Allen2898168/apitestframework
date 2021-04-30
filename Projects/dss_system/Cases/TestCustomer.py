@@ -15,10 +15,12 @@ class TestCustomer(CaseCode):
         """ ERP客户建档 ERP维护客户档案，同步客户档案到云印 """
         with self.setUp():
             data = self.data.get("add_or_modify_customer")
-
+            self.logger.warning("请求参数：%s" % data)
         with self.steps():
             resp = self.add_or_modify_customer(data)
             resp_json = json.loads(resp.text)
+            self.logger.warning("响应参数：%s" % resp_json)
+
             resp_code = resp_json.get("resultCode")
             resp_msg = resp_json.get("resultMsg")
 
@@ -27,6 +29,7 @@ class TestCustomer(CaseCode):
 
         with self.cleanUp():
             self.execute_sql(self.sql.get("find_customer"))
+        self.logger.warning("测试用例1")
 
     def test_02_account_quota(self):
         """ ERP信用额度发生变化时通知 """
@@ -38,6 +41,7 @@ class TestCustomer(CaseCode):
         with self.steps():
             resp = self.account_quota(data)
             resp_json = json.loads(resp.text)
+            self.logger.warning("响应参数：%s" % resp_json)
             resp_code = resp_json.get("resultCode")
             resp_msg = resp_json.get("resultMsg")
 
@@ -50,10 +54,12 @@ class TestCustomer(CaseCode):
             data = self.data.get("customer_address")
             data["tempCreditEndDate"] = self.get_data_time()
             data["updateTime"] = self.get_data_time()
+            self.logger.warning("请求参数：%s" % data)
 
         with self.steps():
             resp = self.customer_address(data)
             resp_json = json.loads(resp.text)
+            self.logger.warning("响应参数：%s" % resp_json)
             resp_code = resp_json.get("resultCode")
             resp_msg = resp_json.get("resultMsg")
 

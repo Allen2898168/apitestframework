@@ -21,15 +21,15 @@ LoggingMap = {
 }
 
 
-def system_logging(loglevel, filename, when="M", ):
+def system_logging(loglevel, filename, when="D", ):
     logger = logging.getLogger()
     logger.setLevel(LoggingMap[loglevel])
-    format_str = logging.Formatter('[%(asctime)s] %(filename)s_%(lineno)d: %(levelname)s:  %(message)s')
+    format_str = logging.Formatter('[%(asctime)s] %(filename)s: %(module)s->%(funcName)s:第%(lineno)d行: %(levelname)s:  %(message)s')
     sh = logging.StreamHandler()
     sh.setFormatter(format_str)
     th = handlers.TimedRotatingFileHandler(filename=filename, when=when, backupCount=2, interval=2, encoding='utf-8')
     th.setFormatter(format_str)
-    logger.addHandler(sh)
+    # logger.addHandler(sh) # 控制台输出
     logger.addHandler(th)
 
 

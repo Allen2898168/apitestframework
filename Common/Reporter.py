@@ -70,7 +70,6 @@ __version__ = "0.9.1"
 
 import os
 import re
-
 from jinja2 import Environment
 
 """
@@ -111,7 +110,7 @@ import unittest
 from xml.sax import saxutils
 from Common.NailInform import DingTalkSender
 from Common.Configure import Configure
-
+import logging
 
 # ------------------------------------------------------------------------
 # The redirectors below are used to capture output during testing. Output
@@ -694,6 +693,7 @@ class _TestResult(TestResult):
 
     def startTest(self, test):
         TestResult.startTest(self, test)
+
         # just one buffer for both stdout and stderr
         self.outputBuffer = io.StringIO()
         stdout_redirector.fp = self.outputBuffer
@@ -980,7 +980,6 @@ class HTMLTestRunner(Template_mixin):
                 name = "%s.%s" % (cls.__module__, cls.__name__)
             doc = cls.__doc__ and cls.__doc__.split("\n")[0] or ""
             desc = doc and '%s: %s' % (name, doc) or name
-
             row = self.REPORT_CLASS_TMPL % dict(
                 style=ne > 0 and 'errorClass' or nf > 0 and 'failClass' or 'passClass',
                 desc=desc,
@@ -1026,7 +1025,6 @@ class HTMLTestRunner(Template_mixin):
             id=tid,
             output=saxutils.escape(o + e),
         )
-
         row = tmpl % dict(
             tid=tid,
             Class=(n == 0 and 'hiddenRow' or 'none'),
@@ -1035,6 +1033,7 @@ class HTMLTestRunner(Template_mixin):
             script=script,
             status=self.STATUS[n],
         )
+
         rows.append(row)
         if not has_output:
             return
