@@ -114,5 +114,27 @@ class TestOnlineOrder(CaseCode):
         with self.verify():
             assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)
 
-    # def test_06_production(self):
-    #     """ 测试云印订单排产通知  """
+        with self.save():
+            self.procedure().value.update({"order_id": order_id})
+
+    def test_06_production(self):
+        """ 测试云印订单排产通知  """
+        with self.setUp():
+            data = self.data.get("productionOrder")
+            data['productionData'][0]['externalOrderCode'] = self.procedure().value.get("order_id")
+            self.logger.warning("请求参数：%s" % data)
+
+        with self.steps():
+            resp = self.production_order(data=data)
+            resp_json = json.loads(resp.text)
+            self.logger.warning("响应参数：%s" % resp_json)
+            resp_code = resp_json.get("resultCode")
+            resp_msg = resp_json.get("resultMsg")
+            with self.verify():
+                assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)
+
+    def test_07_entering_warehouse(self):
+        """ 测试云印订单排产通知 """
+        with self.setUp():
+            data = self.data.get("enteringWarehouse")
+            data['enteringWarehouseData'][0]['externalOrderCode'] = self.procedure().value.get("order_code")
