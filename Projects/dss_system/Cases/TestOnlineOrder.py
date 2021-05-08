@@ -52,6 +52,7 @@ class TestOnlineOrder(CaseCode):
 
         with self.save():
             self.procedure().value.update({"cart_id": resp_data})
+            self.logger.warning("cart_id变量：%s" % resp_data)
 
     def test_03_create_order(self):
         """ 测试处理购物车订单，生成订单 """
@@ -73,14 +74,15 @@ class TestOnlineOrder(CaseCode):
             assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)
 
         with self.save():
-            self.procedure().value.update({"order_id": resp_data})
+            self.procedure().value.update({"orderIds": resp_data})
+            self.logger.warning("orderIds全局变量：%s" % resp_data)
 
     def test_04_order_pay(self):
         """ 测试订单支付 """
 
         with self.setUp():
             data = self.data.get("buyer_order_pay")
-            data["orderIdList"] = self.procedure().value.get("order_id")
+            data["orderIdList"] = self.procedure().value.get("orderIds")
             data["payPassword"] = self.encrypt_md5(self.encrypt_md5(data["payPassword"]))
             self.logger.warning("请求参数：%s" % data)
 
@@ -99,9 +101,9 @@ class TestOnlineOrder(CaseCode):
 
         with self.setUp():
             data = self.data.get("notify_order_generated")
-            order_id = self.select_sql(
-                set_sql=self.sql.get("find_order_id") % self.procedure().value.get("order_id")[0]).get("order_code")
-            data["orderProductList"][0]["orderProductCode"] = order_id
+            order_product_code = self.select_sql(
+                set_sql=self.sql.get("find_order_id") % self.procedure().value.get("orderIds")[0]).get("order_code")
+            data["orderProductList"][0]["orderProductCode"] = order_product_code
             self.logger.warning("请求参数：%s" % data)
 
         with self.steps():
@@ -115,7 +117,8 @@ class TestOnlineOrder(CaseCode):
             assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)
 
         with self.save():
-            self.procedure().value.update({"order_id": order_id})
+            self.procedure().value.update({"order_id": order_product_code})
+            self.logger.warning("order_product_code全局变量：%s" % order_product_code)
 
     def test_06_production(self):
         """ 测试云印订单排产通知  """
@@ -134,7 +137,7 @@ class TestOnlineOrder(CaseCode):
                 assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)
 
     def test_07_entering_warehouse(self):
-        """ 测试云印订单排产通知 """
+        """ 测试云印订单入库通知 """
         with self.setUp():
             data = self.data.get("enteringWarehouse")
             data['enteringWarehouseData'][0]['externalOrderCode'] = self.procedure().value.get("order_code")

@@ -37,6 +37,7 @@ class Base(Case):
     def select_sql(self, set_sql):
         """ 查询数据 """
         time.sleep(2)
+        self.logger.warning("查询sql：%s" % set_sql)
         conn, cursor = self.gets_db_cursor()
         sql = set_sql
         cursor.execute(sql)
