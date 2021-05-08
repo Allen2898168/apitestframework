@@ -1,4 +1,4 @@
-MODULES_TO_RUN: TestOnlineOrder
+MODULES_TO_RUN: 
 url:
   test: https://testopen.ininin.com
   pre: https://predss.ininin:com
