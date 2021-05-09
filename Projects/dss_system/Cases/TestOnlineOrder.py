@@ -154,5 +154,5 @@ class TestOnlineOrder(CaseCode):
         with self.verify():
             assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)
 
-    # def test_08_delivery_order(self):
-    #     """ 测试云印订单发货通知 """
+        # def test_08_delivery_order(self):
+        #     """ 测试云印订单发货通知 """

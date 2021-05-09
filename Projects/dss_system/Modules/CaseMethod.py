@@ -89,6 +89,7 @@ class CaseCode(Base):
     def buyer_token_header(self):
         """ 采购端token """
         token_header = self.procedure().value.get("zhibanHeader")
+        self.logger.warning("请求头参数：%s" % token_header)
         return token_header
 
     def buyer_cart_order(self, data: str):
