@@ -1,4 +1,4 @@
-MODULES_TO_RUN:
+MODULES_TO_RUN: TestOnlineOrder
 url:
   test: https://testopen.ininin.com
   pre: https://predss.ininin:com
@@ -383,6 +383,7 @@ data:
 
             placeType: "GROUP"
             addressId: 3112
+
     buyer_create_order:
       addressId: 3112
       payment: 10

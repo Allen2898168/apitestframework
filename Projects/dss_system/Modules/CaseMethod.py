@@ -83,35 +83,40 @@ class CaseCode(Base):
         """ 采购端登陆 """
         headers = self.get_headers.get("zhibanHeader")
         url = self.url.get("test") + self.path.get("buyer_login")
+        self.logger.warning("请求url%s" % url)
         r = self.client.post(url=url, json=data, headers=headers, verify=False)
         return r
 
     def buyer_token_header(self):
         """ 采购端token """
         token_header = self.procedure().value.get("zhibanHeader")
-        self.logger.warning("请求头参数：%s" % token_header)
+        self.logger.warning("请求头参数：%s " % token_header)
         return token_header
 
     def buyer_cart_order(self, data: str):
         """ 生成商品订单，加入购物车 """
         url = self.buyer_url.get("test") + self.path.get("buyer_cart_order")
+        self.logger.warning("请求url%s " % url)
         r = self.client.post(url=url, json=data, headers=self.buyer_token_header(), verify=False)
         return r
 
     def buyer_create_order(self, data: str):
         """ 处理购物车订单，创建订单记录 """
         url = self.buyer_url.get("test") + self.path.get("buyer_create_order")
+        self.logger.warning("请求url%s " % url)
         r = self.client.post(url=url, json=data, headers=self.buyer_token_header(), verify=False)
         return r
 
     def buyer_order_pay(self, data: str):
         """ 订单支付 """
         url = self.buyer_url.get("test") + self.path.get("buyer_order_pay")
+        self.logger.warning("请求url%s " % url)
         r = self.client.post(url=url, json=data, headers=self.buyer_token_header(), verify=False)
         return r
 
     def notify_order_generated(self, data: str):
         """ 线上订单接单通知 """
         url = self.url.get("test") + self.path.get("notify_order_generated") + "?" + self.appkey.get("test")
+        self.logger.warning("请求url%s " % url)
         r = self.client.post(url=url, json=data, verify=False)
         return r

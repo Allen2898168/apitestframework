@@ -1,7 +1,7 @@
 {
   PROJECT_TO_RUN: dss_system,
   LOG_LEVEL: WARN,
-  AUTO_SEND_REPORT: True,
+  AUTO_SEND_REPORT: False,
   AUTO_SEND_Ding_Talk: False,
   DB: [
   {name: dss,
