@@ -15,7 +15,7 @@ runningProject = global_conf.get_running_project()
 casesDir = os.path.join(frameworkDir, "Projects", runningProject, "Cases")
 logLevel = global_conf.get_loglevel()
 reportPath = os.path.join(frameworkDir, "Report", "ErpReport.html")
-logPath = os.path.join(frameworkDir, "Log", "LogERP.txt")
+logPath = os.path.join(frameworkDir, "Log", "logERP.txt")
 with open(os.path.join(frameworkDir, "Projects", runningProject, "Conf", "Conf.yml"), "r", encoding="utf-8") as f:
     project_conf = yaml.load(f, Loader=yaml.SafeLoader)
     modulesToRun = project_conf.get("MODULES_TO_RUN")

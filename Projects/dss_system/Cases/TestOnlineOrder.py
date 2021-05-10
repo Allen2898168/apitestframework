@@ -140,6 +140,7 @@ class TestOnlineOrder(CaseCode):
 
     def test_07_entering_warehouse(self):
         """ 测试云印订单入库通知 """
+
         with self.setUp():
             data = self.data.get("enteringWarehouse")
             data['enteringWarehouseData'][0]['externalOrderCode'] = self.procedure().value.get("order_code")
@@ -154,5 +155,40 @@ class TestOnlineOrder(CaseCode):
         with self.verify():
             assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)
 
-        # def test_08_delivery_order(self):
-        #     """ 测试云印订单发货通知 """
+    def test_08_delivery_order(self):
+        """ 测试云印订单发货通知 """
+
+        with self.steps():
+            data = self.data.get("deliveryOrder")
+            data['deliveryList'][0]['externalOrderCode'] = self.procedure().value.get("order_id")
+            data['externalDeliveryCode'] = self.procedure().value.get("order_id")
+            self.logger.warning("请求参数：%s" % data)
+
+        with self.steps():
+            resp = self.delivery_order(data=data)
+            resp_json = json.loads(resp.text)
+            self.logger.warning("响应参数：%s" % resp_json)
+            resp_code = resp_json.get("resultCode")
+            resp_msg = resp_json.get("resultMsg")
+
+        with self.verify():
+            assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)
+
+    def test_09_receipt_order(self):
+        """ 测试云印订单签收通知 """
+
+        with self.setUp():
+            data = self.data.get("receiptOrder")
+            data['receiptList'][0]['externalOrderCode'] = self.procedure().value.get("order_id")
+            data['externalDeliveryCode'] = self.procedure().value.get("order_id")
+            self.logger.warning("请求参数：%s" % data)
+
+        with self.steps():
+            resp = self.receipt_order(data=data)
+            resp_json = json.loads(resp.text)
+            self.logger.warning("响应参数：%s" % resp_json)
+            resp_code = resp_json.get("resultCode")
+            resp_msg = resp_json.get("resultMsg")
+
+        with self.verify():
+            assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)
