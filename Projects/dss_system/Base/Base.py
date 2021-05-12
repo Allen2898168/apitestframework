@@ -1,6 +1,5 @@
 import re
 import time
-
 import xlrd, openpyxl
 import json
 import random
@@ -54,7 +53,7 @@ class Base(Case):
 
     def get_data_time(self):
         """ 获取当前日期时间 """
-        tomorrow = ((datetime.datetime.now() + datetime.timedelta()).strftime('%Y-%m-%d %H:%M:%S'))
+        tomorrow = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
         return tomorrow
 
     # def login(self):

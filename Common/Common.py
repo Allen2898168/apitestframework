@@ -15,5 +15,5 @@ class Common:
 
 
 class GlobaData(object):
-    """公共变量池"""
+    """ 公共变量池 """
     value = {}

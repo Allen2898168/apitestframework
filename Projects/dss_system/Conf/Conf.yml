@@ -145,7 +145,7 @@ data:
           "driverCode": "",
           "driverName": "郭宇鹏",
           "driverTel": "137000000000",
-          "externalDeliveryCode": { $ },
+          "externalDeliveryCode": ~,
           "loadWeight": 0,
           "logisticsDistance": 0,
           "logisticsPrice": 0,
@@ -166,7 +166,7 @@ data:
           "operationType": 1,
           "receiptList": [
             {
-              "externalOrderCode": { $ },
+              "externalOrderCode": ~,
               "orderProductCode": "",
               "quantity": 66,
               "receiptAmount": 466,

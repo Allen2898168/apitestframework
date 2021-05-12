@@ -1,3 +1,4 @@
+import time
 from unittest import skip
 import json
 import jsonpath
@@ -63,6 +64,7 @@ class TestOnlineOrder(CaseCode):
             self.logger.warning("请求参数：%s" % data)
 
         with self.steps():
+            time.sleep(2)
             resp = self.buyer_create_order(data=data)
             resp_json = json.loads(resp.text)
             self.logger.warning("响应参数：%s" % resp_json)
@@ -187,6 +189,45 @@ class TestOnlineOrder(CaseCode):
             resp = self.receipt_order(data=data)
             resp_json = json.loads(resp.text)
             self.logger.warning("响应参数：%s" % resp_json)
+            resp_code = resp_json.get("resultCode")
+            resp_msg = resp_json.get("resultMsg")
+
+        with self.verify():
+            assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)
+
+    def test_10_after_sale(self):
+        """ 测试云印订单售后通知 """
+
+        with self.setUp():
+            data = self.data.get("after_sale")
+            data['afterSaleOrderProductList'][0]["externalOrderCode"] = self.procedure().value.get("order_id")
+            data['afterSaleOrderProductList'][0]["externalDeliveryCode"] = self.procedure().value.get("order_id")
+            data["customerCode"] = "Y003"
+            data["externalDeliveryCode"] = self.procedure().value.get("order_id")
+            data["operateDate"] = self.get_data_time()
+            data["refundTime"] = self.get_data_time()
+            self.logger.warning("请求参数：%s" % data)
+
+        with self.steps():
+            resp = self.after_sale(data=data)
+            resp_json = json.loads(resp.text)
+            resp_code = resp_json.get("resultCode")
+            resp_msg = resp_json.get("resultMsg")
+
+        with self.verify():
+            assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)
+
+
+    def test_11_statement_bill(self):
+        """ 测试对账单生成 """
+
+        with self.setUp():
+            data = self.data.get("statement_bill")
+            self.logger.warning("请求参数：%s" % data)
+
+        with self.steps():
+            resp = self.statement_bill(data=data)
+            resp_json = json.loads(resp.text)
             resp_code = resp_json.get("resultCode")
             resp_msg = resp_json.get("resultMsg")
 
