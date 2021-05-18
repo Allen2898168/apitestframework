@@ -61,7 +61,7 @@ class TestOfflineOrder(CaseCode):
                     resp_code, resp_msg, order_status, self.procedure().value.get("order_code"))
             assert order_status == '待入库', "错误，实际数据库状态：%s  订单号：%s" % (
                 order_status, self.procedure().value.get("order_code"))
-
+    @skip
     def test_03_entering_warehouse(self):
         """ 测试订单入库 """
         with self.setUp():
@@ -84,7 +84,7 @@ class TestOfflineOrder(CaseCode):
                     resp_code, resp_msg, order_status, self.procedure().value.get("order_code"))
             assert order_status == '待发货', "错误，实际数据库状态：%s  订单号：%s" % (
                 order_status, self.procedure().value.get("order_code"))
-
+    @skip
     def test_04_delivery_order(self):
         """ 测试订单发货 """
         with self.setUp():
@@ -108,7 +108,7 @@ class TestOfflineOrder(CaseCode):
                     resp_code, resp_msg, order_status, self.procedure().value.get("order_code"))
             assert order_status == '待签收', "错误，实际数据库状态：%s  订单号：%s" % (
                 order_status, self.procedure().value.get("order_code"))
-
+    @skip
     def test_05_receipt_order(self):
         """ 测试订单签收 """
         with self.setUp():
@@ -133,7 +133,7 @@ class TestOfflineOrder(CaseCode):
 
             assert order_status == '已签收', "错误，实际数据库状态：%s  订单号：%s" % (
                 order_status, self.procedure().value.get("order_code"))
-
+    @skip
     def test_06_cancel_order(self):
         """ 测试取消线下订单 """
         with self.setUp():
@@ -150,7 +150,7 @@ class TestOfflineOrder(CaseCode):
 
         with self.verify():
             assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)
-
+    @skip
     def test_07_end_order(self):
         """ 测试完结订单 """
         with self.setUp():
@@ -167,7 +167,7 @@ class TestOfflineOrder(CaseCode):
 
         with self.verify():
             assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)
-
+    @skip
     def test_08_after_sale(self):
         """ 测试售后处理 """
         with self.setUp():
@@ -189,6 +189,7 @@ class TestOfflineOrder(CaseCode):
         with self.verify():
             assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)
 
+    @skip
     def test_09_statement_bill(self):
         """ 测试对账单生成 """
         with self.setUp():
