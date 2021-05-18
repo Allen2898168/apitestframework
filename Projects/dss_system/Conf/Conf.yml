@@ -37,8 +37,11 @@ header:
     zhibanHeader:
         X-Client-Domain-Name: https://devzhiban.ininin.com,
         Content-Type: application/json;charset=UTF-8
-
-
+        X-CURR-ENTERPRISE-ID: "6656"
+        x-account-model: "2"
+        X-LOGIN-TAG: Xhh1
+        X-CLIENT-VERSION: ba2c46f5
+        X-REQUEST-SOURCE: PC
 data:
     offlineOrder:
       {

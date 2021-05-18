@@ -79,6 +79,7 @@ class TestOnlineOrder(CaseCode):
             self.procedure().value.update({"orderIds": resp_data})
             self.logger.warning("orderIds全局变量：%s" % resp_data)
 
+    @skip
     def test_04_order_pay(self):
         """ 测试订单支付 """
 
@@ -97,7 +98,7 @@ class TestOnlineOrder(CaseCode):
 
         with self.verify():
             assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)
-
+    @skip
     def test_05_notify_order_generated(self):
         """ 测试云印订单接单通知 """
 
@@ -121,7 +122,7 @@ class TestOnlineOrder(CaseCode):
         with self.save():
             self.procedure().value.update({"order_id": order_product_code})
             self.logger.warning("order_product_code全局变量：%s" % order_product_code)
-
+    @skip
     def test_06_production(self):
         """ 测试云印订单排产通知  """
 
@@ -139,7 +140,7 @@ class TestOnlineOrder(CaseCode):
 
         with self.verify():
             assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)
-
+    @skip
     def test_07_entering_warehouse(self):
         """ 测试云印订单入库通知 """
 
@@ -156,7 +157,7 @@ class TestOnlineOrder(CaseCode):
 
         with self.verify():
             assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)
-
+    @skip
     def test_08_delivery_order(self):
         """ 测试云印订单发货通知 """
 
@@ -175,7 +176,7 @@ class TestOnlineOrder(CaseCode):
 
         with self.verify():
             assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)
-
+    @skip
     def test_09_receipt_order(self):
         """ 测试云印订单签收通知 """
 
@@ -194,7 +195,7 @@ class TestOnlineOrder(CaseCode):
 
         with self.verify():
             assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)
-
+    @skip
     def test_10_after_sale(self):
         """ 测试云印订单售后通知 """
 
@@ -217,7 +218,7 @@ class TestOnlineOrder(CaseCode):
         with self.verify():
             assert resp_code == 1000 and resp_msg == '操作成功', "错误，实际%s %s" % (resp_code, resp_msg)
 
-
+    @skip
     def test_11_statement_bill(self):
         """ 测试对账单生成 """
 

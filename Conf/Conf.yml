@@ -1,7 +1,7 @@
 {
   PROJECT_TO_RUN: dss_system,
   LOG_LEVEL: WARN,
-  AUTO_SEND_REPORT: False,
+  AUTO_SEND_REPORT: True,
   AUTO_SEND_Ding_Talk: False,
   DB: [
   {name: dss,
@@ -17,7 +17,8 @@
   ],
   EMAIL_SERVER: {
     sender: szguoyupeng@ininin.com,
-    receivers: [szsunxuan@ininin.com,szquruhao@ininin.com,sztangqiang@ininin.com,tester@ininin.com],
+    receivers: [szguoyupeng@ininin.com],
+#    receivers: [szsunxuan@ininin.com,szquruhao@ininin.com,sztangqiang@ininin.com,tester@ininin.com],
 #    receivers: [szguoyupeng@ininin.com,120894802@qq.com],
     subject: 开放服务中心测试报告_郭宇鹏,
     smtp_server: smtp.exmail.qq.com,
