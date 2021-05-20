@@ -1,4 +1,5 @@
-MODULES_TO_RUN:
+MODULES_TO_RUN: TestOnlineOrder
+
 url:
   test: https://testopen.ininin.com
   pre: https://predss.ininin:com
@@ -31,17 +32,38 @@ path:
   buyer_create_order: /order/place/order/create/order?queryFrom=buyer
   buyer_order_pay: /order/place/order/pay?queryFrom=buyer
   notify_order_generated: /externalservice/order/notify_order_generated
+
 header:
     DssHeader:
         Accept: application/json
+
     zhibanHeader:
-        X-Client-Domain-Name: https://devzhiban.ininin.com,
-        Content-Type: application/json;charset=UTF-8
-        X-CURR-ENTERPRISE-ID: "6656"
-        x-account-model: "2"
+        Connection: keep-alive
+        Content-Length: "291"
+        sec-ch-ua: "Not A;Brand;v=99, Chromium;v=90, Google Chrome;v=90"
+        X-SYSTEM-VERSION: Chrome/90.0.4430.212,chrome90.0.4430.212
+        X-Client-Domain-Name: https://devzhiban.ininin.com
         X-LOGIN-TAG: Xhh1
+        X-SYSTEM-FROM: "4"
         X-CLIENT-VERSION: ba2c46f5
+        sec-ch-ua-mobile: "?0"
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36
+        Content-Type: application/json;charset=UTF-8
+        Accept: application/json
+        X-Auth-Token: ~
+        X-CURR-ENTERPRISE-ID: "6656"
+        x-supplier-enterprise-id: ~
+        x-account-model: "2"
         X-REQUEST-SOURCE: PC
+        Origin: https://devzhiban.ininin.com
+        Sec-Fetch-Site: same-site
+        Sec-Fetch-Mode: cors
+        Sec-Fetch-Dest: empty
+        Referer: https://devzhiban.ininin.com/
+        Accept-Encoding: "gzip, deflate, br"
+        Accept-Language: "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7"
+
+
 data:
     offlineOrder:
       {
